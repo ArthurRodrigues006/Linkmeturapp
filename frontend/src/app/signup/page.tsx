@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import SEOHead from '@/components/SEO/SEOHead';
 import SchemaMarkup from '@/components/SEO/SchemaMarkup';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -18,7 +19,14 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const { signup, isAuthenticated } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,36 +39,24 @@ export default function SignupPage() {
       return;
     }
 
-    try {
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nome: formData.nome,
-          email: formData.email,
-          senha: formData.senha,
-          telefone: formData.telefone,
-          empresa: formData.empresa,
-        }),
-      });
+    const result = await signup({
+      nome: formData.nome,
+      email: formData.email,
+      senha: formData.senha,
+      telefone: formData.telefone,
+      empresa: formData.empresa,
+    });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccess(true);
-        setTimeout(() => {
-          router.push('/login');
-        }, 3000);
-      } else {
-        setError(data.message || 'Erro ao criar conta');
-      }
-    } catch (error) {
-      setError('Erro de conexão. Tente novamente.');
-    } finally {
-      setLoading(false);
+    if (result.success) {
+      setSuccess(true);
+      setTimeout(() => {
+        router.push('/login');
+      }, 3000);
+    } else {
+      setError(result.error || 'Erro ao criar conta');
     }
+    
+    setLoading(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

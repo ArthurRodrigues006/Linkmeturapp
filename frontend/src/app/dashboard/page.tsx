@@ -4,14 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import SEOHead from '@/components/SEO/SEOHead';
 import SchemaMarkup from '@/components/SEO/SchemaMarkup';
-
-interface User {
-  id: string;
-  nome: string;
-  email: string;
-  nivel: number;
-  corp_id: string;
-}
+import { useAuth } from '@/hooks/useAuth';
+import { useApi } from '@/hooks/useApi';
 
 interface Stats {
   totalJobs: number;
@@ -21,7 +15,7 @@ interface Stats {
 }
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<User | null>(null);
+  const { user, loading: authLoading, requireAuth } = useAuth();
   const [stats, setStats] = useState<Stats>({
     totalJobs: 0,
     totalContacts: 0,
@@ -32,44 +26,18 @@ export default function DashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Verificar autenticação
-    const token = localStorage.getItem('access_token');
-    if (!token) {
-      router.push('/login');
-      return;
+    requireAuth();
+    if (!authLoading) {
+      loadStats();
     }
+  }, [requireAuth, authLoading]);
 
-    // Carregar dados do usuário e estatísticas
-    loadUserData();
-    loadStats();
-  }, [router]);
-
-  const loadUserData = async () => {
-    try {
-      const token = localStorage.getItem('access_token');
-      const response = await fetch('/api/auth/profile', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-      } else {
-        router.push('/login');
-      }
-    } catch (error) {
-      console.error('Erro ao carregar dados do usuário:', error);
-      router.push('/login');
-    }
-  };
 
   const loadStats = async () => {
     try {
       const token = localStorage.getItem('access_token');
       const [jobsRes, contactsRes, notificationsRes] = await Promise.all([
-        fetch('/api/jobs', {
+        fetch('/api/jobs/mine', {
           headers: { 'Authorization': `Bearer ${token}` },
         }),
         fetch('/api/contacts', {
@@ -109,7 +77,7 @@ export default function DashboardPage() {
     return roles[nivel] || 'Usuário';
   };
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>

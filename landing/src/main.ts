@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { IoAdapter } from '@nestjs/platform-socket.io';
-// import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,9 +17,9 @@ async function bootstrap() {
     credentials: true,
     allowedHeaders: 'Content-Type, Authorization, Accept'
   });
-  // app.useGlobalPipes(
-  //   new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
-  // );
+  app.useGlobalPipes(
+    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }),
+  );
   // 3. Configura o WebSocket (Socket.IO)
   app.useWebSocketAdapter(new IoAdapter(app));
 
