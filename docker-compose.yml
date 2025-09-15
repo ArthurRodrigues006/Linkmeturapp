@@ -1,6 +1,26 @@
 version: '3.8'
 
 services:
+  # Nginx - Proxy Reverso
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: linkmetur_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/ssl:ro
+    depends_on:
+      - backend
+      - frontend
+      - landing
+    networks:
+      - linkmetur_network
+    restart: unless-stopped
+
   # Banco de dados PostgreSQL
   postgres:
     image: postgres:15-alpine
@@ -9,23 +29,31 @@ services:
       POSTGRES_DB: linkmetur
       POSTGRES_USER: linkmetur_user
       POSTGRES_PASSWORD: linkmetur_password
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - linkmetur_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U linkmetur_user -d linkmetur"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   # Redis para cache e sessões
   redis:
     image: redis:7-alpine
     container_name: linkmetur_redis
-    ports:
-      - "6379:6379"
     volumes:
       - redis_data:/data
     networks:
       - linkmetur_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   # Backend API
   backend:
@@ -34,21 +62,19 @@ services:
       dockerfile: Dockerfile
     container_name: linkmetur_backend
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - DATABASE_URL=postgresql://linkmetur_user:linkmetur_password@postgres:5432/linkmetur
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - BACKEND_PORT=3001
-    ports:
-      - "3001:3001"
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - linkmetur_network
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
+    restart: unless-stopped
 
   # Frontend Next.js
   frontend:
@@ -57,18 +83,14 @@ services:
       dockerfile: Dockerfile
     container_name: linkmetur_frontend
     environment:
-      - NODE_ENV=development
-      - NEXT_PUBLIC_API_URL=http://localhost:3001
-      - NEXT_PUBLIC_LANDING_URL=http://localhost:8081
-    ports:
-      - "3000:3000"
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=https://api.linkmetur.com.br
+      - NEXT_PUBLIC_LANDING_URL=https://linkmetur.com.br
     depends_on:
       - backend
     networks:
       - linkmetur_network
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+    restart: unless-stopped
 
   # Landing Page API
   landing:
@@ -77,21 +99,19 @@ services:
       dockerfile: Dockerfile
     container_name: linkmetur_landing
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - DATABASE_URL=postgresql://linkmetur_user:linkmetur_password@postgres:5432/linkmetur
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - LANDING_PORT=8081
-    ports:
-      - "8081:8081"
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - linkmetur_network
-    volumes:
-      - ./landing:/app
-      - /app/node_modules
+    restart: unless-stopped
 
 volumes:
   postgres_data:

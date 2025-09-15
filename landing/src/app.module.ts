@@ -4,20 +4,20 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import * as redisStore from 'cache-manager-ioredis';
-// import { UsersModule } from './users/users.module';
+import { UsersModule } from './users/users.module';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CorporationsModule } from './corporations/corporations.module';
-// import { AuthenticationsModule } from './authentications/authentications.module';
-// import { ChatsModule } from './chats/chats.module';
-// import { JobModule } from './job/job.module';
-// import { ContactsModule } from './contacts/contacts.module';
-// import { RequestForProposalModule } from './request-for-proposal/request-for-proposal.module';
-// import { ProposalModule } from './proposal/proposal.module';
-
-// import { RequestModule } from './request/request.module';
-// import { NotificationModule } from './notification/notification.module';
+import { AuthenticationsModule } from './authentications/authentications.module';
+import { ChatsModule } from './chats/chats.module';
+import { JobModule } from './job/job.module';
+import { ContactsModule } from './contacts/contacts.module';
+import { RequestForProposalModule } from './request-for-proposal/request-for-proposal.module';
+import { ProposalModule } from './proposal/proposal.module';
+import { RequestModule } from './request/request.module';
+import { NotificationModule } from './notification/notification.module';
 import { DatabaseModule } from './database/database.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -30,14 +30,17 @@ import { DatabaseModule } from './database/database.module';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        url: configService.get<string>('DATABASE_URL'),
+        host: configService.get<string>('DB_HOST', 'localhost'),
+        port: configService.get<number>('DB_PORT', 5432),
+        username: configService.get<string>('DB_USERNAME', 'linkmetur_user'),
+        password: configService.get<string>('DB_PASSWORD', 'linkmetur_password'),
+        database: configService.get<string>('DB_DATABASE', 'linkmetur'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        // A principal mudança: 'synchronize' é seguro apenas em desenvolvimento
         synchronize: configService.get<string>('NODE_ENV') === 'development',
-        ssl: {
-          rejectUnauthorized:
-            configService.get<string>('NODE_ENV') !== 'development',
-        },
+        logging: configService.get<string>('NODE_ENV') === 'development',
+        ssl: configService.get<string>('NODE_ENV') === 'production' ? {
+          rejectUnauthorized: false,
+        } : false,
       }),
       inject: [ConfigService],
     }),
@@ -63,27 +66,29 @@ import { DatabaseModule } from './database/database.module';
     }),
 
     // Módulos da aplicação
-    // UsersModule,
+    UsersModule,
 
     CorporationsModule,
 
-    // AuthenticationsModule,
+    AuthenticationsModule,
 
-    // JobModule,
+    JobModule,
 
-    // ChatsModule,
+    ChatsModule,
 
-    // ContactsModule,
+    ContactsModule,
 
-    // RequestForProposalModule,
+    RequestForProposalModule,
 
-    // ProposalModule,
+    ProposalModule,
 
-    // RequestModule,
+    RequestModule,
 
-    // NotificationModule,
+    NotificationModule,
 
     DatabaseModule,
+
+    HealthModule,
   ],
   controllers: [],
   providers: [

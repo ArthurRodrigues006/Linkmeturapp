@@ -150,4 +150,53 @@ export class AuthenticationsService {
   private gerarCodigo2FA(): string {
     return Math.floor(100000 + Math.random() * 900000).toString(); // 6 dígitos
   }
+
+  /**
+   * Cadastro de novo usuário
+   */
+  async signup(signupDto: any): Promise<{ message: string }> {
+    // Define nível padrão (ex: usuário comum)
+    const userDto = { ...signupDto, nivel: 1 };
+
+    const user = await this.usersService.create(userDto);
+
+    // Cria registro de autenticação
+    const auth = this.authRepo.create({
+      user_id: user.id,
+      email_verificado: false,
+    });
+    await this.authRepo.save(auth);
+
+    return { message: 'Usuário criado com sucesso!' };
+  }
+
+  /**
+   * Verificação de email
+   */
+  async verifyEmail(userId: string): Promise<{ message: string }> {
+    const auth = await this.authRepo.findOne({ where: { user_id: userId } });
+    if (!auth) throw new NotFoundException('Usuário não encontrado');
+
+    auth.email_verificado = true;
+    await this.authRepo.save(auth);
+
+    return { message: 'Email verificado com sucesso!' };
+  }
+
+  /**
+   * Refresh token
+   */
+  async refreshToken(refreshToken: string): Promise<{ access_token: string }> {
+    try {
+      const payload = this.jwtService.verify(refreshToken);
+      const user = await this.usersService.findOne(payload.sub);
+      
+      const newPayload = { email: user.email, sub: user.id };
+      return {
+        access_token: this.jwtService.sign(newPayload, { expiresIn: '15m' }),
+      };
+    } catch (error) {
+      throw new UnauthorizedException('Token inválido');
+    }
+  }
 }

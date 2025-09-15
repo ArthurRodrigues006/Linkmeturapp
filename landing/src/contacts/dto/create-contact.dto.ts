@@ -1,23 +1,34 @@
-import { IsBoolean, IsEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  IsPhoneNumber,
+  IsOptional,
+  Length,
+} from 'class-validator';
 
 export class CreateContactDto {
   @IsString()
-  @IsEmpty()
-  corporationID: string;
+  @Length(2, 100)
+  nome: string;
+
+  @IsEmail({}, { message: 'Email inválido' })
+  email: string;
+
+  @IsPhoneNumber('BR', { message: 'Telefone inválido (formato BR)' })
+  telefone: string;
 
   @IsString()
-  @IsEmpty()
-  contactID: string;
-
-  @IsBoolean()
   @IsOptional()
-  blocked_contact: boolean;
+  @Length(2, 100)
+  empresa?: string;
 
-  @IsBoolean()
+  @IsString()
   @IsOptional()
-  saved_contact: boolean;
+  @Length(2, 50)
+  cargo?: string;
 
-  @IsBoolean()
+  @IsString()
   @IsOptional()
-  favorited_contact: boolean;
+  @Length(0, 500)
+  observacoes?: string;
 }

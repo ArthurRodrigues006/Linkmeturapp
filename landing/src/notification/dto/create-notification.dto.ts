@@ -1,27 +1,25 @@
-// src/notification/dto/create-notification.dto.ts
-import { IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-validator';
+import {
+  IsString,
+  IsEnum,
+  IsOptional,
+  IsObject,
+  Length,
+} from 'class-validator';
 
 export class CreateNotificationDto {
   @IsString()
-  @IsNotEmpty()
-  mensagem: string;
-
-  @IsOptional()
-  @IsBoolean()
-  lida?: boolean;
+  @Length(1, 100)
+  titulo!: string;
 
   @IsString()
-  @IsNotEmpty()
-  corpId: string;
+  @Length(1, 500)
+  mensagem!: string;
 
-  @IsOptional()
   @IsString()
-  tipo?: string;
+  @IsEnum(['info', 'success', 'warning', 'error', 'system'])
+  tipo!: string;
 
   @IsOptional()
-  @IsString()
-  link?: string;
-
-  @IsOptional()
-  metadata?: any;
+  @IsObject()
+  metadata?: Record<string, any>;
 }
