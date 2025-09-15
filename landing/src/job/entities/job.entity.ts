@@ -18,7 +18,7 @@ export class Job extends BaseEntity {
   @Column({ type: 'varchar', length: 100 })
   categoria: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, nullable: true })
   sub_categoria: string;
 
   @Column({ type: 'text' })
@@ -36,14 +36,14 @@ export class Job extends BaseEntity {
   @Column({ type: 'integer', default: 0 })
   total_views: number;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   video_url: string;
 
-  @Column({ type: 'text', array: true })
+  @Column({ type: 'text', array: true, default: [] })
   certificacoes: string[];
 
-  @Column({ type: 'varchar', length: 50 })
-  disponibilidade: string;
+  @Column({ type: 'text', array: true, default: [] })
+  disponibilidade: string[];
 
   @Column({ type: 'boolean', default: false })
   publicado: boolean;

@@ -1,6 +1,24 @@
 module.exports = {
   apps: [
     {
+      name: 'linkmetur-frontend',
+      script: 'npm',
+      args: 'start',
+      cwd: './frontend',
+      instances: 2,
+      exec_mode: 'cluster',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3000
+      },
+      error_file: '/var/log/linkmetur/frontend-error.log',
+      out_file: '/var/log/linkmetur/frontend-out.log',
+      log_file: '/var/log/linkmetur/frontend-combined.log',
+      time: true,
+      max_memory_restart: '1G',
+      node_args: '--max-old-space-size=1024'
+    },
+    {
       name: 'linkmetur-backend',
       script: 'dist/main.js',
       cwd: './backend',
