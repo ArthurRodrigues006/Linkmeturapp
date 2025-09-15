@@ -4,9 +4,9 @@ import { IsString, IsUrl, IsOptional } from 'class-validator';
 export class CreateRequestPhotoDto {
   @IsUrl({}, { message: 'photo_URL deve ser uma URL válida' })
   @IsOptional()
-  photo_URL?: string;
+  photo_URL?= '';
 
   @IsString()
   @IsOptional()
-  photo_alt?: string;
+  photo_alt?= '';
 }

@@ -16,5 +16,5 @@ export class RequestPhotos extends BaseEntity {
 
   @ManyToOne(() => RequestForProposal, (rfp) => rfp.fotos)
   @JoinColumn({ name: 'request_ID' })
-  rfp!: RequestForProposal;
+  rfp!!: RequestForProposal;
 }

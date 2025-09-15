@@ -5,20 +5,20 @@ export class UpdateAuthenticationDto {
   @IsOptional()
   @IsString()
   @MinLength(6)
-  senha?: string;
+  senha?= '';
 
   @IsOptional()
-  token_recuperacao?: string;
+  token_recuperacao?= '';
 
   @IsOptional()
-  expiracao_token?: Date;
+  expiracao_token?= new Date();
 
   @IsOptional()
-  email_verificado?: boolean;
+  email_verificado?= false;
 
   @IsOptional()
-  codigo_2fa?: string;
+  codigo_2fa?= '';
 
   @IsOptional()
-  dois_fatores_ativo?: boolean;
+  dois_fatores_ativo?= false;
 }

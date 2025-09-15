@@ -4,5 +4,5 @@ import { IsOptional } from 'class-validator';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
-  senha?: string;
+  senha?= '';
 }

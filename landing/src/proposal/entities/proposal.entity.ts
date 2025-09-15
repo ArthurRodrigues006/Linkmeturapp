@@ -17,15 +17,15 @@ export class Proposal extends BaseEntity {
 
   @ManyToOne(() => RequestForProposal, (rfp) => rfp.proposals)
   @JoinColumn({ name: 'rfp_id' })
-  rfp!: RequestForProposal;
+  rfp!!: RequestForProposal;
 
   @ManyToOne(() => Corporation)
   @JoinColumn({ name: 'corp_id' })
-  corporation!: Corporation;
+  corporation!!: Corporation;
 
   @ManyToOne(() => Corporation, { nullable: true })
   @JoinColumn({ name: 'user_id' })
-  user!: Corporation;
+  user!!: Corporation;
 
   @Column({ type: 'text', nullable: true })
   resumo_proposta: string = '';

@@ -26,7 +26,7 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
-  avatar_url?: string;
+  avatar_url?= '';
 
   @IsInt({ message: 'Nível deve ser um número inteiro' })
   nivel: number = 0;

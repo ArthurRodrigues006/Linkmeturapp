@@ -10,7 +10,7 @@ export class ProposalPhotos extends BaseEntity {
 
   @ManyToOne(() => Proposal, (proposal) => proposal.fotos)
   @JoinColumn({ name: 'proposal_id' })
-  proposal!: Proposal;
+  proposal!!: Proposal;
 
   @Column({ type: 'text' })
   photo_url: string = '';

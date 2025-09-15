@@ -9,15 +9,15 @@ import {
 export class CreateNotificationDto {
   @IsString()
   @Length(1, 100)
-  titulo!: string;
+  titulo: string = '';
 
   @IsString()
   @Length(1, 500)
-  mensagem!: string;
+  mensagem: string = '';
 
   @IsString()
   @IsEnum(['info', 'success', 'warning', 'error', 'system'])
-  tipo!: string;
+  tipo: string = '';
 
   @IsOptional()
   @IsObject()

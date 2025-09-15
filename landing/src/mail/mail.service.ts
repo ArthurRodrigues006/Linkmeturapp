@@ -4,10 +4,10 @@ import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 
 interface SendOptions {
-  to: string;
-  subject: string;
-  text?: string;
-  html?: string;
+  to= '';
+  subject= '';
+  text?= '';
+  html?= '';
 }
 
 @Injectable()

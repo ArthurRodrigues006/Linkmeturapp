@@ -4,53 +4,53 @@ import { JobPhotoResponseDto } from './job-photo-response.dto';
 
 export class JobResponseDto {
   @ApiProperty()
-  id: string;
+  id= '';
 
   @ApiProperty()
-  nome_servico: string;
+  nome_servico= '';
 
   @ApiProperty()
-  categoria: string;
+  categoria= '';
 
   @ApiProperty()
-  sub_categoria: string;
+  sub_categoria= '';
 
   @ApiProperty()
-  descricao: string;
+  descricao= '';
 
   @ApiProperty()
-  min_valor: number;
+  min_valor= 0;
 
   @ApiProperty()
-  max_valor: number;
+  max_valor= 0;
 
   @ApiProperty()
-  views: number;
+  views= 0;
 
   @ApiProperty()
-  total_views: number;
+  total_views= 0;
 
   @ApiProperty()
-  video_url: string;
+  video_url= '';
 
   @ApiProperty({ type: [String] })
-  certificacoes: string[];
+  certificacoes= [];
+
+  @ApiProperty({ type: [String] })
+  disponibilidade: string[] = [];
 
   @ApiProperty()
-  disponibilidade: string;
-
-  @ApiProperty()
-  publicado: boolean;
+  publicado= false;
 
   @ApiProperty({ type: [JobPhotoResponseDto] })
-  fotos: JobPhotoResponseDto[];
+  fotos= [];
 
   @ApiProperty({ type: String })
-  corp_id: string;
+  corp_id= '';
 
   @ApiProperty()
-  created_at: Date;
+  created_at= new Date();
 
   @ApiProperty()
-  updated_at: Date;
+  updated_at= new Date();
 }

@@ -6,22 +6,22 @@ import { User } from 'src/users/entities/user.entity';
 @Entity('job_evaluation')
 export class JobEvaluation extends BaseEntity {
   @Column({ type: 'uuid' })
-  job_id: string;
+  job_id= '';
 
   @Column({ type: 'uuid' })
-  user_id: string;
+  user_id= '';
 
   @ManyToOne(() => Job, (job) => job.avaliacoes)
   @JoinColumn({ name: 'job_id' })
-  job: Job;
+  job!: Job;
 
   @ManyToOne(() => User, (user) => user)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user!: User;
 
   @Column({ type: 'smallint' })
   rating: number; // 1 a 5
 
   @Column({ type: 'text' })
-  comment: string;
+  comment= '';
 }

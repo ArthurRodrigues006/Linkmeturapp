@@ -1,10 +1,10 @@
 export class ApiResponseDto<T = any> {
-  success: boolean;
-  message?: string;
+  success: boolean = false;
+  message?: string = '';
   data?: T;
-  error?: string;
-  timestamp: string;
-  path?: string;
+  error?: string = '';
+  timestamp: string = '';
+  path?: string = '';
 
   constructor(data?: T, message?: string, success: boolean = true) {
     this.success = success;
@@ -27,10 +27,15 @@ export class ApiResponseDto<T = any> {
 
 export class PaginatedResponseDto<T = any> extends ApiResponseDto<T[]> {
   pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
+    page= 0;
+    limit= 0;
+    total= 0;
+    totalPages= 0;
+  } = {
+    page: 0,
+    limit: 0,
+    total: 0,
+    totalPages: 0,
   };
 
   constructor(

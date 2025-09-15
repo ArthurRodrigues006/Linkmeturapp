@@ -3,9 +3,9 @@ import { IsEmail, IsString, Length } from 'class-validator';
 
 export class LoginDto {
   @IsEmail({}, { message: 'Email inválido' })
-  email: string;
+  email= '';
 
   @IsString()
   @Length(6, 128)
-  senha: string;
+  senha= '';
 }

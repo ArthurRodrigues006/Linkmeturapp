@@ -9,13 +9,13 @@ import { randomUUID } from 'node:crypto';
 
 export abstract class BaseEntity {
   @PrimaryColumn()
-  id: string;
+  id: string = '';
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at: Date = new Date();
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at: Date = new Date();
 
   @BeforeInsert()
   beforeCreate() {

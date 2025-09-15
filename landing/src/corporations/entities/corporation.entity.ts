@@ -20,75 +20,75 @@ import { RequestForProposal } from 'src/request-for-proposal/entities/request-fo
 @Index('IDX_CORPORATION_LOCALIZACAO', { synchronize: false })
 export class Corporation extends BaseEntity {
   @Column({ nullable: true })
-  logo_url: string;
+  logo_url: string = '';
 
   @Column({ type: 'char', length: 14, unique: true })
-  cnpj: string;
+  cnpj: string = '';
 
   @Column({ type: 'varchar', length: 255 })
-  razao_social: string;
+  razao_social: string = '';
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  nome_fantasia: string;
+  nome_fantasia: string = '';
 
   @Column({ type: 'date' })
-  data_inicio_atividade: string;
+  data_inicio_atividade: string = '';
 
   @Column({ type: 'varchar', length: 7 })
-  cnae_fiscal_principal: string;
+  cnae_fiscal_principal: string = '';
 
   @Column({ type: 'varchar', length: 50 })
-  tipo: string;
+  tipo: string = '';
 
   @Column('text', { array: true, nullable: true })
-  tags: string[];
+  tags: string[] = [];
 
   @Column({ type: 'varchar', length: 20 })
-  telefone: string;
+  telefone: string = '';
 
   @Column({ type: 'varchar', length: 255 })
-  email: string;
+  email: string = '';
 
   @Column({ type: 'varchar', length: 10 })
-  cep: string;
+  cep: string = '';
 
   @Column({ type: 'varchar', length: 255 })
-  endereco: string;
+  endereco: string = '';
 
   @Column({ type: 'varchar', length: 10, nullable: true })
-  numero: string;
+  numero: string = '';
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  bairro: string;
+  bairro: string = '';
 
   @Column({ type: 'varchar', length: 100 })
-  cidade: string;
+  cidade: string = '';
 
   @Column({ type: 'char', length: 2 })
-  estado: string;
+  estado: string = '';
 
   @Column({ type: 'varchar', length: 50, default: 'Brasil' })
-  pais: string;
+  pais: string = '';
 
   @Column({ nullable: true }) // requer PostGIS
-  localizacao: string;
+  localizacao: string = '';
 
   @Column({ type: 'uuid', nullable: true })
-  profile_id: string;
+  profile_id: string = '';
 
   @OneToOne(() => CorporationProfile, (profile) => profile.corporation)
   @JoinColumn({ name: 'profile_id' })
-  profile: CorporationProfile;
+  profile!!: CorporationProfile;
 
   @OneToMany(() => User, (user) => user.corporation)
-  users: User[];
+  users: User[] = [];
 
   @OneToMany(() => Job, (job) => job.corporation)
-  jobs: Job[];
+  jobs: Job[] = [];
 
   @OneToMany(() => RequestForProposal, (rfp) => rfp.corporation)
-  rfps: RequestForProposal[];
+  rfps: RequestForProposal[] = [];
 
   @OneToMany(() => Contact, (contact) => contact.corporation)
-  contacts: Contact[];
+  contacts: Contact[] = [];
 }

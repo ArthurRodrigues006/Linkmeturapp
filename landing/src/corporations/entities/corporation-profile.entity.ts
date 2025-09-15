@@ -5,50 +5,50 @@ import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 @Entity('corporation_profile')
 export class CorporationProfile extends BaseEntity {
   @Column({ type: 'uuid', nullable: true })
-  corp_id: string;
+  corp_id= '';
 
   @Column({ type: 'text', nullable: true })
-  logo_url: string;
+  logo_url= '';
 
   @Column({ type: 'text', nullable: true })
-  banner_url: string;
+  banner_url= '';
 
   @Column({ type: 'text', nullable: true })
-  site: string;
+  site= '';
 
   @Column({ type: 'text', nullable: true })
-  descricao: string;
+  descricao= '';
 
   @Column({ type: 'text', nullable: true })
-  sobre: string;
+  sobre= '';
 
   @Column({ type: 'jsonb', nullable: true })
-  horario: Record<string, string>;
+  horario: Record<string, string> = {};
 
   @Column({ type: 'text', array: true, nullable: true })
-  galeria: string[];
+  galeria= [];
 
   @Column({ type: 'text', nullable: true })
-  instagram: string;
+  instagram= '';
 
   @Column({ type: 'text', nullable: true })
-  facebook: string;
+  facebook= '';
 
   @Column({ type: 'text', nullable: true })
-  linkedin: string;
+  linkedin= '';
 
   @Column({ type: 'text', nullable: true })
-  youtube: string;
+  youtube= '';
 
   @Column({ type: 'text', nullable: true })
-  twitter: string;
+  twitter= '';
 
   @Column({ type: 'text', array: true, nullable: true })
-  certificacoes: string[];
+  certificacoes= [];
 
   @OneToOne(() => Corporation, (corporation) => corporation.profile, {
     cascade: true,
   })
   @JoinColumn({ name: 'corp_id' })
-  corporation: Corporation;
+  corporation!: Corporation;
 }

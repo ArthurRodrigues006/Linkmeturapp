@@ -28,17 +28,17 @@ export class RequestForProposal extends BaseEntity {
   // Contratante
   @ManyToOne(() => Corporation, (corp) => corp.rfps)
   @JoinColumn({ name: 'corp_id' })
-  corporation!: Corporation;
+  corporation!!: Corporation;
 
   // Prestador (opcional — pode ser aberto)
   @ManyToOne(() => Corporation, { nullable: true })
   @JoinColumn({ name: 'prestador_id' })
-  prestador!: Corporation;
+  prestador!!: Corporation;
 
   // Serviço base (opcional)
   @ManyToOne(() => Job, { nullable: true })
   @JoinColumn({ name: 'job_id' })
-  job!: Job;
+  job!!: Job;
 
   @Column({ type: 'varchar', length: 255 })
   titulo: string = '';

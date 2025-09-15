@@ -1,13 +1,13 @@
 export class ContactResponseDto {
-  id: string;
-  nome: string;
-  email: string;
-  telefone: string;
-  empresa?: string;
-  cargo?: string;
-  observacoes?: string;
-  favorited_contact: boolean;
-  corp_id: string;
-  created_at: Date;
-  updated_at: Date;
+  id= '';
+  nome= '';
+  email= '';
+  telefone= '';
+  empresa?= '';
+  cargo?= '';
+  observacoes?= '';
+  favorited_contact= false;
+  corp_id= '';
+  created_at= new Date();
+  updated_at= new Date();
 }

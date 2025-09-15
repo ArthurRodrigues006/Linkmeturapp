@@ -4,23 +4,23 @@ import { IsString, IsUrl, IsOptional, IsArray, IsJSON } from 'class-validator';
 export class CreateCorporationProfileDto {
   @IsUrl({ protocols: ['http', 'https'] })
   @IsOptional()
-  logo_url?: string;
+  logo_url?= '';
 
   @IsUrl({ protocols: ['http', 'https'] })
   @IsOptional()
-  banner_url?: string;
+  banner_url?= '';
 
   @IsUrl({ protocols: ['http', 'https'] })
   @IsOptional()
-  site?: string;
+  site?= '';
 
   @IsString()
   @IsOptional()
-  descricao?: string;
+  descricao?= '';
 
   @IsString()
   @IsOptional()
-  sobre?: string;
+  sobre?= '';
 
   @IsJSON({ each: true })
   @IsOptional()
@@ -29,29 +29,29 @@ export class CreateCorporationProfileDto {
   @IsArray({ each: true })
   @IsUrl({ protocols: ['http', 'https'] })
   @IsOptional()
-  galeria?: string[];
+  galeria?= [];
 
   @IsUrl()
   @IsOptional()
-  instagram?: string;
+  instagram?= '';
 
   @IsUrl()
   @IsOptional()
-  facebook?: string;
+  facebook?= '';
 
   @IsUrl()
-  linkedin?: string;
-
-  @IsUrl()
-  @IsOptional()
-  youtube?: string;
+  linkedin?= '';
 
   @IsUrl()
   @IsOptional()
-  twitter?: string;
+  youtube?= '';
+
+  @IsUrl()
+  @IsOptional()
+  twitter?= '';
 
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
-  certificacoes?: string[];
+  certificacoes?= [];
 }

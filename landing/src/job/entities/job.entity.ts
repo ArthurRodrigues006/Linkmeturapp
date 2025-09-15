@@ -7,50 +7,50 @@ import { JobEvaluation } from './job_evaluation.entity';
 @Entity('job')
 export class Job extends BaseEntity {
   @Column({ type: 'uuid' })
-  corp_id: string;
+  corp_id= '';
 
   @ManyToOne(() => Corporation, (corporation) => corporation.jobs)
-  corporation: Corporation;
+  corporation!: Corporation;
 
   @Column({ type: 'varchar', length: 255 })
-  nome_servico: string;
+  nome_servico= '';
 
   @Column({ type: 'varchar', length: 100 })
-  categoria: string;
+  categoria= '';
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  sub_categoria: string;
+  sub_categoria= '';
 
   @Column({ type: 'text' })
-  descricao: string;
+  descricao= '';
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
-  min_valor: number;
+  min_valor= 0;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
-  max_valor: number;
+  max_valor= 0;
 
   @Column({ type: 'integer', default: 0 })
-  views: number;
+  views= 0;
 
   @Column({ type: 'integer', default: 0 })
-  total_views: number;
+  total_views= 0;
 
   @Column({ type: 'text', nullable: true })
-  video_url: string;
+  video_url= '';
 
   @Column({ type: 'text', array: true, default: [] })
-  certificacoes: string[];
+  certificacoes= [];
 
   @Column({ type: 'text', array: true, default: [] })
-  disponibilidade: string[];
+  disponibilidade= [];
 
   @Column({ type: 'boolean', default: false })
-  publicado: boolean;
+  publicado= false;
 
   @OneToMany(() => JobPhotos, (photos) => photos.job)
-  fotos: JobPhotos[];
+  fotos= [];
 
   @OneToMany(() => JobEvaluation, (evaluation) => evaluation.job)
-  avaliacoes: JobEvaluation[];
+  avaliacoes= [];
 }

@@ -1,15 +1,15 @@
 export type CepResponse = {
-  cep: string;
-  state: string;
-  city: string;
-  neighborhood: string;
-  street: string;
-  service: string;
+  cep= '';
+  state= '';
+  city= '';
+  neighborhood= '';
+  street= '';
+  service= '';
   location: {
-    type: string;
+    type= '';
     coordinates: {
-      longitude: string;
-      latitude: string;
+      longitude= '';
+      latitude= '';
     };
   };
 };

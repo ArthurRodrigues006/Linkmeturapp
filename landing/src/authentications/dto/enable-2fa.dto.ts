@@ -3,5 +3,5 @@ import { IsBoolean } from 'class-validator';
 
 export class Enable2FADto {
   @IsBoolean()
-  ativar: boolean;
+  ativar= false;
 }

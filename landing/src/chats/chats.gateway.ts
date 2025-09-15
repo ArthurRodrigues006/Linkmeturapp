@@ -11,14 +11,14 @@ import { ChatsService } from './chats.service';
 // import { UpdateChatDto } from './dto/update-chat.dto';
 import { Server, Socket } from 'socket.io';
 // interface FindHistoryDto {
-//   remetenteId: string;
-//   destinatarioId: string;
+//   remetenteId= '';
+//   destinatarioId= '';
 // }
 
 // @WebSocketGateway({ namespace: '/chat', cors: true })
 // export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 //   @WebSocketServer()
-//   server: Server;
+//   server!: Server;
 //   constructor(private readonly chatsService: ChatsService) {
 //     console.log('✅ ChatsGateway carregado');
 //   }
@@ -92,7 +92,7 @@ import { Server, Socket } from 'socket.io';
 
 export class ChatsGateway {
   @WebSocketServer()
-  server: Server;
+  server!: Server;
   constructor(private readonly chatsService: ChatsService) {
     console.log('✅ ChatsGateway carregado');
   }

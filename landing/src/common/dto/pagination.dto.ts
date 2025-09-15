@@ -16,10 +16,10 @@ export class PaginationDto {
   limit?: number = 10;
 
   @IsOptional()
-  search?: string;
+  search?= '';
 
   @IsOptional()
-  sort?: string;
+  sort?= '';
 
   @IsOptional()
   order?: 'ASC' | 'DESC' = 'DESC';

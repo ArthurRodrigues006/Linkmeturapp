@@ -15,7 +15,6 @@ export class ContactsService {
   async create(createDto: CreateContactDto, corpId: string): Promise<Contact> {
     const contact = this.contactRepository.create({
       ...createDto,
-      corp_id: corpId,
     });
 
     return await this.contactRepository.save(contact);
@@ -23,14 +22,14 @@ export class ContactsService {
 
   async findAllByCorporation(corpId: string): Promise<Contact[]> {
     return await this.contactRepository.find({
-      where: { corp_id: corpId },
+      where: { corporation_id: corpId },
       order: { created_at: 'DESC' },
     });
   }
 
   async findOne(id: string, corpId: string): Promise<Contact> {
     const contact = await this.contactRepository.findOne({
-      where: { id, corp_id: corpId },
+      where: { id, corporation_id: corpId },
     });
 
     if (!contact) {
@@ -43,7 +42,7 @@ export class ContactsService {
   async search(query: string, corpId: string): Promise<Contact[]> {
     return await this.contactRepository
       .createQueryBuilder('contact')
-      .where('contact.corp_id = :corpId', { corpId })
+      .where('contact.corporation_id = :corpId', { corpId })
       .andWhere(
         '(contact.nome ILIKE :query OR contact.email ILIKE :query OR contact.empresa ILIKE :query)',
         { query: `%${query}%` },
@@ -60,7 +59,7 @@ export class ContactsService {
   }
 
   async remove(id: string, corpId: string): Promise<void> {
-    const result = await this.contactRepository.delete({ id, corp_id: corpId });
+    const result = await this.contactRepository.delete({ id, corporation_id: corpId });
     if (result.affected === 0) {
       throw new NotFoundException(`Contato com ID ${id} não encontrado.`);
     }

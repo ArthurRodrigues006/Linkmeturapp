@@ -6,35 +6,35 @@ import { Contact } from 'src/contacts/entities/contact.entity';
 @Entity('chat')
 export class Chat extends BaseEntity {
   @Column({ type: 'uuid' })
-  remetente_id: string;
+  remetente_id= '';
 
   @Column({ type: 'uuid' })
-  destinatario_id: string;
+  destinatario_id= '';
 
   @Column({ type: 'uuid', nullable: true })
-  contact_id: string;
+  contact_id= '';
 
   @ManyToOne(() => Corporation, { eager: true })
   @JoinColumn({ name: 'remetente_id' })
-  remetente: Corporation;
+  remetente!: Corporation;
 
   @ManyToOne(() => Corporation, { eager: true })
   @JoinColumn({ name: 'destinatario_id' })
-  destinatario: Corporation;
+  destinatario!: Corporation;
 
   @ManyToOne(() => Contact, { nullable: true })
   @JoinColumn({ name: 'contact_id' })
-  contact: Contact;
+  contact!: Contact;
 
   @Column({ type: 'varchar', length: 100 })
-  remetente_nome: string;
+  remetente_nome= '';
 
   @Column({ type: 'text' }) // conteúdo criptografado
-  conteudo: string;
+  conteudo= '';
 
   @Column({ type: 'bytea' })
   iv: Buffer; // initialization vector
 
   @Column({ type: 'boolean', default: false })
-  lida: boolean;
+  lida= false;
 }

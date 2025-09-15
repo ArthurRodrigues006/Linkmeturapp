@@ -5,5 +5,5 @@ export class RecoveryPasswordDto {
   @IsEmail({}, { message: 'Email deve ser válido.' })
   @IsNotEmpty({ message: 'Email é obrigatório.' })
   @Transform(({ value }: { value: string }) => value.toLowerCase().trim())
-  email: string;
+  email= '';
 }

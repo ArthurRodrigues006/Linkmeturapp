@@ -12,22 +12,22 @@ import { CreateProposalPhotoDto } from './create-proposal-photo.dto';
 
 export class CreateProposalDto {
   @IsString()
-  rfp_id: string;
+  rfp_id= '';
 
   @IsString()
   @IsOptional()
-  resumo_proposta?: string;
+  resumo_proposta?= '';
 
   @IsNumber()
-  valor_proposta: number;
+  valor_proposta= 0;
 
   @IsString()
   @IsOptional()
-  observacoes?: string;
+  observacoes?= '';
 
   @IsOptional()
   @IsDate()
-  prazo?: Date;
+  prazo?= new Date();
 
   @IsArray()
   @ValidateNested({ each: true })

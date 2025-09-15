@@ -11,23 +11,23 @@ import { Corporation } from 'src/corporations/entities/corporation.entity';
 @Entity('notification')
 export class Notification extends BaseEntity {
   @Column({ type: 'uuid' })
-  corp_id: string;
+  corp_id= '';
 
   @ManyToOne(() => Corporation)
   @JoinColumn({ name: 'corp_id' })
-  corporation: Corporation;
+  corporation!: Corporation;
 
   @Column({ type: 'text' })
-  mensagem: string;
+  mensagem= '';
 
   @Column({ type: 'boolean', default: false })
-  lida: boolean;
+  lida= false;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
   tipo: string; // 'alerta', 'convite', 'proposta', etc
 
   @Column({ type: 'text', nullable: true })
-  link: string;
+  link= '';
 
   @Column({ type: 'jsonb', nullable: true })
   metadata: Record<string, any>;

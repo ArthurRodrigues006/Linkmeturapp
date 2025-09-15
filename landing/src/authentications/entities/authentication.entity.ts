@@ -4,29 +4,29 @@ import { User } from '../../users/entities/user.entity';
 @Entity('authentication')
 export class Authentication {
   @PrimaryColumn('uuid')
-  user_id: string;
+  user_id= '';
 
   @OneToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user!: User;
 
   @Column({ type: 'text', nullable: true })
-  token_recuperacao: string | null;
+  token_recuperacao= null;
 
   @Column({ type: 'timestamptz', nullable: true })
-  expiracao_token: Date | null;
+  expiracao_token= null;
 
   @Column({ type: 'boolean', default: false })
-  email_verificado: boolean;
+  email_verificado= false;
 
   @Column({ type: 'text', nullable: true })
-  codigo_2fa: string | null;
+  codigo_2fa= null;
 
   @Column({ type: 'timestamptz', nullable: true })
-  expiracao_2fa: Date | null;
+  expiracao_2fa= null;
 
   @Column({ type: 'boolean', default: false })
-  dois_fatores_ativo: boolean;
+  dois_fatores_ativo= false;
 
   @Column({ type: 'text', array: true, default: [] })
   dispositivos_confiaveis: string[]; // IPs ou fingerprints

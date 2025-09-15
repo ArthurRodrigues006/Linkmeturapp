@@ -27,9 +27,9 @@ export class User extends BaseEntity {
   corp_id: string = '';
 
   @ManyToOne(() => Corporation, (corporation) => corporation.users)
-  corporation!: Corporation;
+  corporation!!: Corporation;
 
   @OneToOne(() => Authentication, { cascade: true })
   @JoinColumn({ name: 'id' }) // user.id = authentication.user_id
-  authentication!: Authentication;
+  authentication!!: Authentication;
 }

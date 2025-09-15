@@ -3,14 +3,14 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class JobPhotoResponseDto {
   @ApiProperty()
-  id: string;
+  id= '';
 
   @ApiProperty()
-  photo_url: string;
+  photo_url= '';
 
   @ApiProperty()
-  photo_alt: string;
+  photo_alt= '';
 
   @ApiProperty()
-  created_at: Date;
+  created_at= new Date();
 }

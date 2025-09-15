@@ -1,57 +1,57 @@
 // src/common/types/cnpj.type.ts
 export type CnpjResponse = {
-  cnpj_raiz: string;
-  razao_social: string;
-  capital_social: string;
+  cnpj_raiz= '';
+  razao_social= '';
+  capital_social= '';
   porte: {
-    id: string;
-    descricao: string;
+    id= '';
+    descricao= '';
   };
   natureza_juridica: {
-    id: string;
-    descricao: string;
+    id= '';
+    descricao= '';
   };
   simples: {
     simples: 'Sim' | 'Não';
-    data_opcao_simples: string | null;
+    data_opcao_simples= null;
     mei: 'Sim' | 'Não';
-    data_opcao_mei: string | null;
+    data_opcao_mei= null;
   };
   estabelecimento: {
-    cnpj: string;
-    tipo: string;
-    nome_fantasia: string | null;
-    situacao_cadastral: string;
-    data_situacao_cadastral: string;
-    data_inicio_atividade: string;
+    cnpj= '';
+    tipo= '';
+    nome_fantasia= null;
+    situacao_cadastral= '';
+    data_situacao_cadastral= '';
+    data_inicio_atividade= '';
     atividade_principal: {
-      id: string;
-      descricao: string;
+      id= '';
+      descricao= '';
     };
     atividades_secundarias: Array<{
-      id: string;
-      descricao: string;
+      id= '';
+      descricao= '';
     }>;
-    tipo_logradouro: string;
-    logradouro: string;
-    numero: string;
-    complemento: string | null;
-    bairro: string;
-    cep: string;
-    ddd1: string | null;
-    telefone1: string | null;
-    email: string | null;
+    tipo_logradouro= '';
+    logradouro= '';
+    numero= '';
+    complemento= null;
+    bairro= '';
+    cep= '';
+    ddd1= null;
+    telefone1= null;
+    email= null;
     cidade: {
-      nome: string;
-      ibge_id: number;
+      nome= '';
+      ibge_id= 0;
     };
     estado: {
-      nome: string;
-      sigla: string;
+      nome= '';
+      sigla= '';
     };
     pais: {
-      nome: string;
-      iso2: string;
+      nome= '';
+      iso2= '';
     };
   };
 };

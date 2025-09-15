@@ -9,26 +9,26 @@ import {
 export class CreateContactDto {
   @IsString()
   @Length(2, 100)
-  nome: string;
+  nome= '';
 
   @IsEmail({}, { message: 'Email inválido' })
-  email: string;
+  email= '';
 
   @IsPhoneNumber('BR', { message: 'Telefone inválido (formato BR)' })
-  telefone: string;
+  telefone= '';
 
   @IsString()
   @IsOptional()
   @Length(2, 100)
-  empresa?: string;
+  empresa?= '';
 
   @IsString()
   @IsOptional()
   @Length(2, 50)
-  cargo?: string;
+  cargo?= '';
 
   @IsString()
   @IsOptional()
   @Length(0, 500)
-  observacoes?: string;
+  observacoes?= '';
 }

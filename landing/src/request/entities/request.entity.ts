@@ -25,25 +25,25 @@ export class Request extends BaseEntity {
 
   @ManyToOne(() => RequestForProposal, (rfp) => rfp.request)
   @JoinColumn({ name: 'rfp_id' })
-  rfp!: RequestForProposal;
+  rfp!!: RequestForProposal;
 
   @ManyToOne(() => Proposal)
   @JoinColumn({ name: 'proposal_id' })
-  proposal!: Proposal;
+  proposal!!: Proposal;
 
   @ManyToOne(() => Job)
   @JoinColumn({ name: 'job_id' })
-  job!: Job;
+  job!!: Job;
 
   // Empresa contratante
   @ManyToOne(() => Corporation)
   @JoinColumn({ name: 'corp_id' })
-  corporation!: Corporation;
+  corporation!!: Corporation;
 
   // Prestador (usuário que enviou a proposta)
   @ManyToOne(() => Corporation)
   @JoinColumn({ name: 'user_id' })
-  prestador!: Corporation;
+  prestador!!: Corporation;
 
   @Column({ type: 'varchar', length: 255 })
   nome_job: string = '';

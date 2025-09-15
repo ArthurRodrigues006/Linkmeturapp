@@ -45,7 +45,6 @@ export class JobsService {
     // Cria o job
     const job = this.jobRepository.create({
       ...createDto,
-      corp_id: corpId,
       corporation,
       fotos,
     });

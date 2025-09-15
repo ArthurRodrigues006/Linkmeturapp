@@ -30,15 +30,15 @@ export class CreateRfpDto {
 
   @IsOptional()
   @IsDate()
-  prazo?: Date;
+  prazo?= new Date();
 
   @IsOptional()
   @IsString()
-  job_id?: string;
+  job_id?= '';
 
   @IsOptional()
   @IsString()
-  prestador_id?: string;
+  prestador_id?= '';
 
   @IsArray()
   @ValidateNested({ each: true })

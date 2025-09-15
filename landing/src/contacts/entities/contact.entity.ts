@@ -7,25 +7,25 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 @Entity()
 export class Contact extends BaseEntity {
   @Column({ type: 'uuid' })
-  corporation_id: string;
+  corporation_id= '';
 
   @Column({ type: 'uuid' })
   contact_id: string; // pode ser User.id ou Corporation.id
 
   @ManyToOne(() => Corporation, (corp) => corp.contacts)
   @JoinColumn({ name: 'corporation_id' })
-  corporation: Corporation;
+  corporation!: Corporation;
 
   @ManyToOne(() => User, { nullable: true }) // se for contato de usuário
   @JoinColumn({ name: 'contact_id' })
-  contactUser: User;
+  contactUser!: User;
 
   @Column({ type: 'boolean', default: false })
-  block_contact: boolean;
+  block_contact= false;
 
   @Column({ type: 'boolean', default: true })
-  saved_contact: boolean;
+  saved_contact= false;
 
   @Column({ type: 'boolean', default: false })
-  favorited_contact: boolean;
+  favorited_contact= false;
 }

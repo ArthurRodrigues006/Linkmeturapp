@@ -15,66 +15,66 @@ import { CreateCorporationProfileDto } from './create-corporation-profile.dto';
 export class CreateCorporationDto {
   @IsString()
   @Length(14, 14)
-  cnpj: string;
+  cnpj= '';
 
   @IsString()
   @Length(2, 255)
-  razao_social: string;
+  razao_social= '';
 
   @IsString()
   @Length(2, 255)
   @IsOptional()
-  nome_fantasia?: string;
+  nome_fantasia?= '';
 
   @IsString()
-  data_inicio_atividade: string;
+  data_inicio_atividade= '';
 
   @IsString()
   @Length(7, 7)
-  cnae_fiscal_principal: string;
+  cnae_fiscal_principal= '';
 
   @IsString()
   @Length(2, 50)
-  tipo: string;
+  tipo= '';
 
   @IsArray()
   @IsOptional()
   @IsString({ each: true })
-  tags?: string[];
+  tags?= [];
 
   @IsString()
   @Length(10, 20)
-  telefone: string;
+  telefone= '';
 
   @IsEmail()
-  email: string;
+  email= '';
 
   @IsPostalCode('BR')
-  cep: string;
+  cep= '';
 
   @IsString()
   @Length(5, 255)
-  endereco: string;
+  endereco= '';
 
   @IsString()
   @IsOptional()
-  numero?: string;
+  numero?= '';
 
   @IsString()
   @IsOptional()
-  bairro?: string;
+  bairro?= '';
 
   @IsString()
   @Length(2, 100)
-  cidade: string;
+  cidade= '';
 
   @IsString()
   @Length(2, 2)
-  estado: string;
+  estado= '';
 
   @IsString()
   @IsOptional()
-  pais?: string;
+  pais?= '';
 
   @IsObject()
   @IsOptional()
