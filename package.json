@@ -1,8 +1,22 @@
 {
   "private": true,
-  "workspaces": ["backend","frontend"],
+  "workspaces": ["backend","frontend","landing"],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
   "scripts": {
     "dev:backend": "npm run start:dev --workspace backend",
-    "dev:frontend": "npm run dev --workspace frontend"
+    "dev:frontend": "npm run dev --workspace frontend",
+    "dev:landing": "npm run start:dev --workspace landing",
+    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:landing\"",
+    "dev:db": "docker-compose -f docker-compose.dev.yml up -d",
+    "dev:db:down": "docker-compose -f docker-compose.dev.yml down",
+    "dev:full": "npm run dev:db && npm run dev:all",
+    "build:all": "npm run build --workspace backend && npm run build --workspace frontend && npm run build --workspace landing",
+    "install:all": "npm install && npm install --workspace backend && npm install --workspace frontend && npm install --workspace landing",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose build",
+    "docker:logs": "docker-compose logs -f"
   }
 }
