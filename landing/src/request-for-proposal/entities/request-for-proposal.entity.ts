@@ -17,62 +17,62 @@ import { RequestPhotos } from './request-photos.entity';
 @Entity('request_for_proposal')
 export class RequestForProposal extends BaseEntity {
   @Column({ type: 'uuid' })
-  corp_id: string;
+  corp_id: string = '';
 
   @Column({ type: 'uuid', nullable: true })
-  prestador_id: string;
+  prestador_id: string = '';
 
   @Column({ type: 'uuid', nullable: true })
-  job_id: string;
+  job_id: string = '';
 
   // Contratante
   @ManyToOne(() => Corporation, (corp) => corp.rfps)
   @JoinColumn({ name: 'corp_id' })
-  corporation: Corporation;
+  corporation!: Corporation;
 
   // Prestador (opcional — pode ser aberto)
   @ManyToOne(() => Corporation, { nullable: true })
   @JoinColumn({ name: 'prestador_id' })
-  prestador: Corporation;
+  prestador!: Corporation;
 
   // Serviço base (opcional)
   @ManyToOne(() => Job, { nullable: true })
   @JoinColumn({ name: 'job_id' })
-  job: Job;
+  job!: Job;
 
   @Column({ type: 'varchar', length: 255 })
-  titulo: string;
+  titulo: string = '';
 
   @Column({ type: 'text' })
-  descricao: string;
+  descricao: string = '';
 
   @Column({ type: 'text' })
-  detalhes: string;
+  detalhes: string = '';
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
-  valor_medio: number;
+  valor_medio: number = 0;
 
   @Column({ type: 'varchar', length: 50 })
-  tipo: string; // 'aberto', 'fechado', 'direcionado'
+  tipo: string = ''; // 'aberto', 'fechado', 'direcionado'
 
   @Column({ type: 'timestamptz', nullable: true })
-  prazo: Date;
+  prazo: Date = new Date();
 
   @Column({ type: 'varchar', length: 20 })
-  status: string; // 'aberto', 'encerrado', 'cancelado'
+  status: string = ''; // 'aberto', 'encerrado', 'cancelado'
 
   // Propostas enviadas por prestadores
   @OneToMany(() => Proposal, (proposal) => proposal.rfp, { cascade: true })
-  proposals: Proposal[];
+  proposals: Proposal[] = [];
 
   // Pedido gerado ao aceitar uma proposta
   @OneToOne(() => Request, (request) => request.rfp, {
     cascade: true,
     nullable: true,
   })
-  request: Request;
+  request!: Request;
 
   // Fotos do projeto
   @OneToMany(() => RequestPhotos, (photo) => photo.rfp, { cascade: true })
-  fotos: RequestPhotos[];
+  fotos: RequestPhotos[] = [];
 }

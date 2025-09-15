@@ -4,44 +4,44 @@ import { RequestPhotoResponseDto } from './request-photo-response.dto';
 
 export class RfpResponseDto {
   @ApiProperty()
-  id: string;
+  id: string = '';
 
   @ApiProperty()
-  titulo: string;
+  titulo: string = '';
 
   @ApiProperty()
-  descricao: string;
+  descricao: string = '';
 
   @ApiProperty()
-  detalhes: string;
+  detalhes: string = '';
 
   @ApiProperty()
-  valor_medio: number;
+  valor_medio: number = 0;
 
   @ApiProperty()
-  tipo: string;
+  tipo: string = '';
 
   @ApiProperty({ required: false })
-  prazo: Date;
+  prazo: Date = new Date();
 
   @ApiProperty()
-  status: string;
+  status: string = '';
 
   @ApiProperty({ type: String, required: false })
-  job_id: string;
+  job_id: string = '';
 
   @ApiProperty({ type: String, required: false })
-  prestador_id: string;
+  prestador_id: string = '';
 
   @ApiProperty({ type: [RequestPhotoResponseDto] })
-  fotos: RequestPhotoResponseDto[];
+  fotos: RequestPhotoResponseDto[] = [];
 
   @ApiProperty({ type: String })
-  corp_id: string;
+  corp_id: string = '';
 
   @ApiProperty()
-  created_at: Date;
+  created_at: Date = new Date();
 
   @ApiProperty()
-  updated_at: Date;
+  updated_at: Date = new Date();
 }

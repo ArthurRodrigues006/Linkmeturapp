@@ -3,41 +3,41 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class RequestResponseDto {
   @ApiProperty()
-  id: string;
+  id: string = '';
 
   @ApiProperty()
-  nome_job: string;
+  nome_job: string = '';
 
   @ApiProperty()
-  nome_corp: string;
+  nome_corp: string = '';
 
   @ApiProperty()
-  nome_prestador: string;
+  nome_prestador: string = '';
 
   @ApiProperty()
-  prazo: Date;
+  prazo: Date = new Date();
 
   @ApiProperty()
-  status: string;
+  status: string = '';
 
   @ApiProperty({ type: String })
-  rfp_id: string;
+  rfp_id: string = '';
 
   @ApiProperty({ type: String })
-  proposal_id: string;
+  proposal_id: string = '';
 
   @ApiProperty({ type: String })
-  job_id: string;
+  job_id: string = '';
 
   @ApiProperty({ type: String })
-  corp_id: string;
+  corp_id: string = '';
 
   @ApiProperty({ type: String })
-  prestador_id: string;
+  prestador_id: string = '';
 
   @ApiProperty()
-  created_at: Date;
+  created_at: Date = new Date();
 
   @ApiProperty()
-  updated_at: Date;
+  updated_at: Date = new Date();
 }

@@ -7,44 +7,44 @@ import { Corporation } from 'src/corporations/entities/corporation.entity';
 @Entity()
 export class Proposal extends BaseEntity {
   @Column({ type: 'uuid' })
-  rfp_id: string;
+  rfp_id: string = '';
 
   @Column({ type: 'uuid' })
-  corp_id: string;
+  corp_id: string = '';
 
   @Column({ type: 'uuid', nullable: true })
-  user_id: string;
+  user_id: string = '';
 
   @ManyToOne(() => RequestForProposal, (rfp) => rfp.proposals)
   @JoinColumn({ name: 'rfp_id' })
-  rfp: RequestForProposal;
+  rfp!: RequestForProposal;
 
   @ManyToOne(() => Corporation)
   @JoinColumn({ name: 'corp_id' })
-  corporation: Corporation;
+  corporation!: Corporation;
 
   @ManyToOne(() => Corporation, { nullable: true })
   @JoinColumn({ name: 'user_id' })
-  user: Corporation;
+  user!: Corporation;
 
   @Column({ type: 'text', nullable: true })
-  resumo_proposta: string;
+  resumo_proposta: string = '';
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
-  valor_proposta: number;
+  valor_proposta: number = 0;
 
   @Column({ type: 'text', nullable: true })
-  observacoes: string;
+  observacoes: string = '';
 
   @Column({ type: 'timestamptz', nullable: true })
-  prazo: Date;
+  prazo: Date = new Date();
 
   @Column({ type: 'varchar', length: 20 })
-  status: string; // 'enviada', 'aceita', 'rejeitada'
+  status: string = ''; // 'enviada', 'aceita', 'rejeitada'
 
   @Column({ type: 'boolean', default: false })
-  selecionado: boolean;
+  selecionado: boolean = false;
 
   @OneToMany(() => ProposalPhotos, (photos) => photos.proposal)
-  fotos: ProposalPhotos[];
+  fotos: ProposalPhotos[] = [];
 }

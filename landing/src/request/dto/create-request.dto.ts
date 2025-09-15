@@ -2,32 +2,32 @@ import { IsDateString, IsString } from 'class-validator';
 
 export class CreateRequestDto {
   @IsString()
-  jobID: string;
+  jobID: string = '';
 
   @IsString()
-  nome_job: string;
+  nome_job: string = '';
 
   @IsString()
-  corpID: string;
+  corpID: string = '';
 
   @IsString()
-  nome_corp: string;
+  nome_corp: string = '';
 
   @IsString()
-  prestadorID: string;
+  prestadorID: string = '';
 
   @IsString()
-  nome_prestador: string;
+  nome_prestador: string = '';
 
   @IsString()
-  rfpID: string;
+  rfpID: string = '';
 
   @IsString()
-  proposalID: string;
+  proposalID: string = '';
 
   @IsDateString()
-  prazo: Date;
+  prazo: Date = new Date();
 
   @IsString()
-  status: string;
+  status: string = '';
 }

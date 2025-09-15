@@ -13,20 +13,20 @@ import { CreateRequestPhotoDto } from './create-request-photo.dto';
 
 export class CreateRfpDto {
   @IsString()
-  titulo: string;
+  titulo: string = '';
 
   @IsString()
-  descricao: string;
+  descricao: string = '';
 
   @IsString()
-  detalhes: string;
+  detalhes: string = '';
 
   @IsNumber()
-  valor_medio: number;
+  valor_medio: number = 0;
 
   @IsString()
   @IsEnum(['aberto', 'fechado', 'direcionado'])
-  tipo: string;
+  tipo: string = '';
 
   @IsOptional()
   @IsDate()

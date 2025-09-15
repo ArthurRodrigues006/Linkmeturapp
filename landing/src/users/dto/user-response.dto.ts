@@ -3,29 +3,29 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UserResponseDto {
   @ApiProperty({ example: 'a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8' })
-  id: string;
+  id: string = '';
 
   @ApiProperty({ example: 'João Silva' })
-  nome: string;
+  nome: string = '';
 
   @ApiProperty({ example: 'joao@empresa.com' })
-  email: string;
+  email: string = '';
 
   @ApiProperty({ example: '11987654321' })
-  telefone: string;
+  telefone: string = '';
 
   @ApiProperty({ example: 'https://cdn.com/avatar.jpg', required: false })
-  avatar_url: string;
+  avatar_url: string = '';
 
   @ApiProperty({ example: 2 })
-  nivel: number;
+  nivel: number = 0;
 
   @ApiProperty({ example: 'a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8' })
-  corp_id: string;
+  corp_id: string = '';
 
   @ApiProperty({ example: '2025-04-05T10:00:00.000Z' })
-  created_at: Date;
+  created_at: Date = new Date();
 
   @ApiProperty({ example: '2025-04-05T10:00:00.000Z' })
-  updated_at: Date;
+  updated_at: Date = new Date();
 }

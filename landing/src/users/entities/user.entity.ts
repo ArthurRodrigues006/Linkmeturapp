@@ -6,30 +6,30 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 @Entity('user')
 export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 100 })
-  nome: string;
+  nome: string = '';
 
   @Column({ type: 'varchar', length: 255, unique: true })
-  email: string;
+  email: string = '';
 
   @Column({ type: 'text' }) // armazena hash
-  hash_senha: string;
+  hash_senha: string = '';
 
   @Column({ type: 'varchar', length: 20 })
-  telefone: string;
+  telefone: string = '';
 
   @Column({ type: 'text', nullable: true })
-  avatar_url: string;
+  avatar_url: string = '';
 
   @Column({ type: 'integer' })
-  nivel: number;
+  nivel: number = 0;
 
   @Column({ type: 'uuid' })
-  corp_id: string;
+  corp_id: string = '';
 
   @ManyToOne(() => Corporation, (corporation) => corporation.users)
-  corporation: Corporation;
+  corporation!: Corporation;
 
   @OneToOne(() => Authentication, { cascade: true })
   @JoinColumn({ name: 'id' }) // user.id = authentication.user_id
-  authentication: Authentication;
+  authentication!: Authentication;
 }

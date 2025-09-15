@@ -4,41 +4,41 @@ import { ProposalPhotoResponseDto } from './proposal-photo-response.dto';
 
 export class ProposalResponseDto {
   @ApiProperty()
-  id: string;
+  id: string = '';
 
   @ApiProperty()
-  resumo_proposta: string;
+  resumo_proposta: string = '';
 
   @ApiProperty()
-  valor_proposta: number;
+  valor_proposta: number = 0;
 
   @ApiProperty()
-  observacoes: string;
+  observacoes: string = '';
 
   @ApiProperty({ required: false })
-  prazo: Date;
+  prazo: Date = new Date();
 
   @ApiProperty()
-  status: string;
+  status: string = '';
 
   @ApiProperty()
-  selecionado: boolean;
+  selecionado: boolean = false;
 
   @ApiProperty({ type: [ProposalPhotoResponseDto] })
-  fotos: ProposalPhotoResponseDto[];
+  fotos: ProposalPhotoResponseDto[] = [];
 
   @ApiProperty({ type: String })
-  rfp_id: string;
+  rfp_id: string = '';
 
   @ApiProperty({ type: String })
-  corp_id: string;
+  corp_id: string = '';
 
   @ApiProperty({ type: String, required: false })
-  user_id: string;
+  user_id: string = '';
 
   @ApiProperty()
-  created_at: Date;
+  created_at: Date = new Date();
 
   @ApiProperty()
-  updated_at: Date;
+  updated_at: Date = new Date();
 }
