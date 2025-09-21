@@ -58,13 +58,13 @@ export default function Landing() {
 
       {/* HERO */}
       <section id="hero" className="relative h-screen w-full pt-24 bg-gradient-to-r from-blue-600 to-green-600">
-        {/* <Image
+        <Image
           src="/hero.jpg"
           alt="Banner Hero"
           fill
           className="object-cover"
           priority
-        /> */}
+        />
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 flex items-center px-8 lg:px-16">
           <div className="max-w-2xl">
@@ -129,14 +129,13 @@ export default function Landing() {
         <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8">
           {/* Card 1 */}
           <div className="p-6 bg-gray-50 rounded-2xl shadow text-center">
-            {/* <Image
+            <Image
               src="/141.png"
               alt="Ícone Empresas do Trade Turístico"
               width={75}
               height={70}
               className="mx-auto mb-4"
-            /> */}
-            <div className="w-[75px] h-[70px] bg-gray-300 rounded-lg mx-auto mb-4 flex items-center justify-center text-gray-600">141</div>
+            />
             <h4 className="font-semibold mb-2 text-black">
               Empresas do Trade Turístico
             </h4>
@@ -147,14 +146,13 @@ export default function Landing() {
           </div>
           {/* Card 2 */}
           <div className="p-6 bg-gray-50 rounded-2xl shadow text-center">
-            {/* <Image
+            <Image
               src="/142.png"
               alt="Ícone Prestadores de Serviços"
               width={70}
               height={70}
               className="mx-auto mb-4"
-            /> */}
-            <div className="w-[70px] h-[70px] bg-gray-300 rounded-lg mx-auto mb-4 flex items-center justify-center text-gray-600">142</div>
+            />
             <h4 className="font-semibold mb-2 text-black">
               Prestadores de Serviços
             </h4>
@@ -165,14 +163,13 @@ export default function Landing() {
           </div>
           {/* Card 3 */}
           <div className="p-6 bg-gray-50 rounded-2xl shadow text-center">
-            {/* <Image
+            <Image
               src="/143.png"
               alt="Ícone Para o Mercado e os Turistas"
               width={70}
               height={70}
               className="mx-auto mb-4"
-            /> */}
-            <div className="w-[70px] h-[70px] bg-gray-300 rounded-lg mx-auto mb-4 flex items-center justify-center text-gray-600">143</div>
+            />
             <h4 className="font-semibold mb-2 text-black">
               Para o Mercado e os Turistas
             </h4>
@@ -195,14 +192,13 @@ export default function Landing() {
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
           {/* Card: empresas */}
           <div className="p-6 bg-gray-50 rounded-2xl shadow text-left">
-            {/* <Image
+            <Image
               src="/141.png"
               alt="Ícone Empresas do Turismo"
               width={75}
               height={75}
               className="mx-auto mb-4"
-            /> */}
-            <div className="w-[75px] h-[75px] bg-gray-300 rounded-lg mx-auto mb-4 flex items-center justify-center text-gray-600">141</div>
+            />
             <h3 className="text-xl font-semibold mb-2 text-black">
               Para empresas do turismo
             </h3>
@@ -220,14 +216,13 @@ export default function Landing() {
           </div>
           {/* Card: prestadores */}
           <div className="p-6 bg-gray-50 rounded-2xl shadow text-left">
-            {/* <Image
+            <Image
               src="/144.png"
               alt="Ícone Prestadores de Serviço"
               width={70}
               height={70}
               className="mx-auto mb-4"
-            /> */}
-            <div className="w-[70px] h-[70px] bg-gray-300 rounded-lg mx-auto mb-4 flex items-center justify-center text-gray-600">144</div>
+            />
             <h3 className="text-xl font-semibold mb-2 text-black">
               Para prestadores de serviço
             </h3>
@@ -269,15 +264,14 @@ export default function Landing() {
             negócio, veja como você ganha ao fazer parte da LinkMe Tur:
           </p>
           <div className="mt-10 w-full">
-            {/* <Image
+            <Image
               src="/nova.png"
               alt="Benefícios do ecossistema LinkMe Tur"
               width={1600}
               height={800}
               className="mx-auto object-contain"
               priority
-            /> */}
-            <div className="w-full h-[400px] bg-gray-200 rounded-lg mx-auto flex items-center justify-center text-gray-600 text-xl">Imagem dos Benefícios</div>
+            />
           </div>
         </div>
       </section>
@@ -296,15 +290,14 @@ export default function Landing() {
             futuro <span className="text-[#2BE58F]">começa agora!</span>
           </p>
           <div className="flex justify-center">
-            {/* <Image
+            <Image
               src="/mockup-app.png"
               alt="Mockup do App LinkMe Tur"
               width={800}
               height={800}
               className="max-w-full h-auto"
               priority
-            /> */}
-            <div className="w-[400px] h-[400px] bg-gray-200 rounded-lg mx-auto flex items-center justify-center text-gray-600 text-lg">Mockup App</div>
+            />
           </div>
         </div>
       </section>
@@ -314,15 +307,14 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="grid md:grid-cols-2 gap-8 px-8 py-10 items-center">
             <div className="space-y-6">
-              {/* <Image
+              <Image
                 src="/turismo-talks-logo.png"
                 alt="Turismo Talks Logo"
                 width={600}
                 height={120}
                 className="object-contain"
                 priority
-              /> */}
-              <div className="w-[300px] h-[60px] bg-gray-300 rounded-lg flex items-center justify-center text-gray-600 font-bold">TURISMO TALKS</div>
+              />
               <h3 className="text-3xl md:text-4xl font-bold text-black">
                 Participe do Turismo Talks: o evento que marca o início dessa
                 jornada.
@@ -365,15 +357,14 @@ export default function Landing() {
                 </li>
               </ul>
             </div>
-            <div className="relative w-full h-60 md:h-80 lg:h-[28rem] bg-gray-200 rounded-xl flex items-center justify-center text-gray-600 text-xl">
-              {/* <Image
+            <div className="relative w-full h-60 md:h-80 lg:h-[28rem] rounded-xl overflow-hidden">
+              <Image
                 src="/evento-foto.jpg"
                 alt="Foto do evento"
                 fill
                 className="object-cover rounded-xl"
                 priority
-              /> */}
-              Foto do Evento
+              />
             </div>
           </div>
         </div>
@@ -392,45 +383,71 @@ export default function Landing() {
             <h4 className="font-semibold mb-4">A Plataforma</h4>
             <details className="mb-2">
               <summary>O que é a LinkMe Tur?</summary>
-              <p className="mt-2">É um ecossistema que conecta...</p>
+              <p className="mt-2">
+                Somos uma plataforma digital inteligente que conecta empresas de turismo a prestadores
+                de serviços qualificados, promovendo eficiência, agilidade e segurança na contratação.
+                Nosso objetivo é impulsionar o crescimento colaborativo e transformar o turismo em uma
+                rede de oportunidades sustentáveis e inovadoras, onde todos prosperam juntos.
+              </p>
             </details>
             <details className="mb-2">
-              <summary>Como a LinkMe Tur funciona?</summary>
-              <p className="mt-2">Você se cadastra, escolhe...</p>
+              <summary>Como a LinkMe Tur conecta empresas de turismo a prestadores?</summary>
+              <p className="mt-2">
+                Por meio de uma plataforma com filtros inteligentes, perfis detalhados e curadoria de
+                serviços, facilitamos o encontro entre quem precisa de soluções e quem tem a expertise
+                para entregar. Tudo de forma rápida, segura e personalizada para o setor de turismo.
+              </p>
             </details>
             <details>
               <summary>A LinkMe Tur é gratuita?</summary>
-              <p className="mt-2">Sim, para usuários iniciais...</p>
+              <p className="mt-2">
+                Sim. Durante o período de testes (MVP), a plataforma será disponibilizada gratuitamente
+                para empresas de turismo e prestadores de serviços. Após essa fase, os planos serão
+                acessíveis e proporcionais ao porte e às necessidades de cada negócio.
+              </p>
             </details>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Empresas de Turismo</h4>
+            <h4 className="font-semibold mb-4">Para Você</h4>
             <details className="mb-2">
-              <summary>Como minha empresa pode se cadastrar?</summary>
-              <p className="mt-2">Basta clicar em "Fazer parte"...</p>
-            </details>
-            <details className="mb-2">
-              <summary>Que tipo de prestadores encontro?</summary>
-              <p className="mt-2">Marketing, tecnologia, jurídico...</p>
+              <summary>A LinkMe Tur é pra mim?</summary>
+              <p className="mt-2">
+                Se você possui uma agência de viagens, hotel, pousada, atrativo turístico, restaurante,
+                empresa de transporte, organiza experiências ou atua com guiamento e receptivo, a LinkMe
+                Tur é pra você! Nossa plataforma é inclusiva e acessível, pensada tanto para profissionais
+                autônomos, como guias de turismo e motoristas particulares, quanto para médias e grandes
+                redes do setor. Se você vive o turismo na prática e quer crescer com mais eficiência,
+                visibilidade e conexões estratégicas esse é o seu lugar.
+              </p>
             </details>
             <details>
-              <summary>Como a LinkMe Tur reduz custos?</summary>
-              <p className="mt-2">Comparando avaliações e...</p>
+              <summary>Quais tipos de prestadores de serviços posso encontrar na plataforma?</summary>
+              <p className="mt-2">
+                Você encontrará empresas e profissionais nas áreas de marketing, tecnologia,
+                sustentabilidade, jurídico, contabilidade, design, consultorias, treinamentos, inovação e
+                muito mais. Todas as empresas que agregam valor ao turismo são bem-vindas,
+                independente do tamanho ou número de colaboradores.
+              </p>
             </details>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Prestadores de Serviços</h4>
+            <h4 className="font-semibold mb-4">Benefícios</h4>
             <details className="mb-2">
-              <summary>Como me cadastrar como prestador?</summary>
-              <p className="mt-2">Preencha o formulário de perfil...</p>
-            </details>
-            <details className="mb-2">
-              <summary>Como recebo propostas?</summary>
-              <p className="mt-2">As empresas enviam solicitações...</p>
+              <summary>Como a LinkMe Tur ajuda a reduzir custos e tempo na contratação?</summary>
+              <p className="mt-2">
+                Oferecemos uma experiência simples e eficiente, com curadoria de profissionais e
+                ferramentas de busca avançada. Isso reduz o tempo gasto na procura por fornecedores
+                confiáveis e evita custos com contratações mal direcionadas.
+              </p>
             </details>
             <details>
-              <summary>Quais benefícios há?</summary>
-              <p className="mt-2">Maior visibilidade, novos clientes...</p>
+              <summary>Como a LinkMe Tur me ajuda a receber propostas relevantes?</summary>
+              <p className="mt-2">
+                Com filtros inteligentes, perfis estratégicos e segmentação por interesse, a LinkMe Tur
+                aproxima as demandas reais do turismo das soluções que você oferece. Quanto mais claro,
+                atrativo e bem construído for o seu perfil, maiores serão suas chances de visibilidade e
+                conexão com clientes qualificados.
+              </p>
             </details>
           </div>
         </div>
