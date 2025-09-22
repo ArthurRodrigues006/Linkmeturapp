@@ -2,478 +2,344 @@
 
 ## 📋 Índice
 
-- [Instalação Local](#-instalação-local)
-- [Instalação em VPS](#-instalação-em-vps)
-- [Configuração de Produção](#-configuração-de-produção)
-- [Troubleshooting](#-troubleshooting)
-- [Suporte](#-suporte)
+no- [Pré-requisitos](#pré-requisitos)
+- [Instalação Rápida](#instalação-rápida)
+- [Instalação Manual](#instalação-manual)
+- [Configuração](#configuração)
+- [Verificação](#verificação)
+- [Solução de Problemas](#solução-de-problemas)
+- [Próximos Passos](#próximos-passos)
 
-## 🏠 Instalação Local
+## 🔧 Pré-requisitos
 
-### Pré-requisitos
+### Obrigatórios
+- **Node.js 18+**: [Download](https://nodejs.org/)
+- **npm ou yarn**: Gerenciador de pacotes
+- **Git**: [Download](https://git-scm.com/)
 
-- **Node.js**: 18+ ([Download](https://nodejs.org/))
-- **Docker**: ([Download](https://www.docker.com/get-started))
-- **Git**: ([Download](https://git-scm.com/))
+### Para Produção (Opcional)
+- **Docker**: [Download](https://docker.com/)
+- **Docker Compose**: Incluído no Docker Desktop
 
-### Passo 1: Clone o Repositório
+### Verificar Pré-requisitos
+
+```bash
+# Verificar versões
+node --version    # Deve ser 18+
+npm --version     # Qualquer versão recente
+git --version     # Qualquer versão recente
+docker --version  # Opcional
+```
+
+## ⚡ Instalação Rápida (Recomendada)
+
+### 1. Clonar o Repositório
 
 ```bash
 git clone https://github.com/linkmetur/linkmetur.git
 cd linkmetur
 ```
 
-### Passo 2: Instalação Automática
+### 2. Executar Script de Instalação
 
 ```bash
-# Tornar scripts executáveis
-chmod +x scripts/*.sh
+# Tornar executável
+chmod +x start-dev.sh
 
-# Executar instalação automática
+# Executar (faz tudo automaticamente)
 ./start-dev.sh
 ```
 
-### Passo 3: Instalação Manual (Alternativa)
+**Pronto!** O script irá:
+- ✅ Instalar todas as dependências
+- ✅ Configurar o banco de dados
+- ✅ Executar migrations
+- ✅ Inserir dados iniciais
+- ✅ Iniciar a aplicação
+
+### 3. Acessar a Aplicação
+
+- **Frontend**: http://localhost:3000
+- **Prisma Studio**: `npm run db:studio`
+
+## 🛠️ Instalação Manual
+
+### 1. Clonar e Instalar
 
 ```bash
-# 1. Instalar dependências
-cd frontend && npm install && cd ..
-cd backend && npm install && cd ..
-cd landing && npm install && cd ..
-
-# 2. Iniciar infraestrutura
-docker-compose up -d postgres redis
-
-# 3. Aguardar serviços iniciarem
-sleep 10
-
-# 4. Executar migrations
-./scripts/setup-database-production.sh
-
-# 5. Iniciar aplicações
-cd backend && npm run start:dev &
-cd landing && npm run start:dev &
-cd frontend && npm run dev &
-```
-
-### Passo 4: Verificar Instalação
-
-```bash
-# Executar testes
-./test-setup.sh
-
-# Verificar URLs
-echo "Frontend: http://localhost:3000"
-echo "Backend: http://localhost:3001"
-echo "Landing: http://localhost:8081"
-```
-
-## 🌐 Instalação em VPS
-
-### Pré-requisitos do VPS
-
-- **Ubuntu 20.04+** ou **CentOS 8+**
-- **2GB RAM** mínimo (4GB recomendado)
-- **20GB SSD** mínimo
-- **Domínio** configurado (opcional)
-
-### Passo 1: Preparar VPS
-
-```bash
-# Conectar ao VPS
-ssh root@seu-vps-ip
-
-# Atualizar sistema
-apt update && apt upgrade -y
-
-# Instalar dependências básicas
-apt install -y curl wget git nginx postgresql postgresql-contrib redis-server
-```
-
-### Passo 2: Instalar Node.js
-
-```bash
-# Instalar Node.js 18
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-apt-get install -y nodejs
-
-# Verificar instalação
-node --version
-npm --version
-```
-
-### Passo 3: Instalar Docker
-
-```bash
-# Instalar Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
-
-# Adicionar usuário ao grupo docker
-usermod -aG docker $USER
-
-# Instalar Docker Compose
-curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-```
-
-### Passo 4: Deploy da Aplicação
-
-```bash
-# Clone do repositório
+# Clonar repositório
 git clone https://github.com/linkmetur/linkmetur.git
 cd linkmetur
 
-# Configurar ambiente VPS
-./scripts/switch-environment.sh vps
-
-# Executar deploy
-./scripts/deploy-vps.sh
+# Instalar dependências
+npm run install:all
 ```
 
-### Passo 5: Configurar SSL (Let's Encrypt)
+### 2. Configurar Banco de Dados
 
 ```bash
-# Instalar Certbot
-apt install -y certbot python3-certbot-nginx
+# Gerar Prisma Client
+npm run db:generate
 
-# Obter certificado SSL
-certbot --nginx -d seu-dominio.com
+# Aplicar schema ao banco
+npm run db:push
 
-# Verificar renovação automática
-certbot renew --dry-run
+# Inserir dados iniciais (opcional)
+npm run db:seed
 ```
 
-## ⚙️ Configuração de Produção
+### 3. Iniciar Aplicação
+
+```bash
+# Desenvolvimento
+npm run dev
+
+# Ou com infraestrutura completa
+npm run dev:full
+```
+
+## ⚙️ Configuração
 
 ### Variáveis de Ambiente
 
-#### Frontend (.env.production)
-```env
-NEXT_PUBLIC_API_URL=https://seu-dominio.com/api
-NEXT_PUBLIC_LANDING_URL=https://seu-dominio.com
-NEXT_PUBLIC_FRONTEND_URL=https://seu-dominio.com
-```
-
-#### Backend (.env.production)
-```env
-NODE_ENV=production
-BACKEND_PORT=3001
-```
-
-#### Landing (.env.production)
-```env
-NODE_ENV=production
-LANDING_PORT=8081
-DB_HOST=localhost
-DB_PORT=5432
-DB_USERNAME=linkmetur_user
-DB_PASSWORD=sua-senha-segura
-DB_DATABASE=linkmetur
-REDIS_HOST=localhost
-REDIS_PORT=6379
-JWT_SECRET=seu-jwt-secret-super-seguro
-```
-
-### Configuração do Banco de Dados
+Crie `.env.local` em `frontend/`:
 
 ```bash
-# Criar usuário do banco
-sudo -u postgres createuser linkmetur_user
-sudo -u postgres createdb linkmetur
-sudo -u postgres psql -c "ALTER USER linkmetur_user PASSWORD 'sua-senha-segura';"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE linkmetur TO linkmetur_user;"
+# Banco de dados (desenvolvimento)
+DATABASE_URL="file:./dev.db"
 
-# Executar migrations
-./scripts/setup-database-production.sh
+# Autenticação
+NEXTAUTH_SECRET="seu-secret-super-seguro-aqui"
+NEXTAUTH_URL="http://localhost:3000"
+
+# URLs da aplicação
+NEXT_PUBLIC_FRONTEND_URL="http://localhost:3000"
 ```
 
-### Configuração do Nginx
+### Configuração de Produção
 
-```nginx
-server {
-    listen 80;
-    server_name seu-dominio.com;
-    return 301 https://$server_name$request_uri;
-}
-
-server {
-    listen 443 ssl http2;
-    server_name seu-dominio.com;
-    
-    # SSL Configuration
-    ssl_certificate /etc/letsencrypt/live/seu-dominio.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/seu-dominio.com/privkey.pem;
-    
-    # Frontend
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-    
-    # Backend API
-    location /api/ {
-        proxy_pass http://localhost:3001/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-    
-    # Landing API
-    location /landing/ {
-        proxy_pass http://localhost:8081/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-```
-
-### Configuração do PM2
+Para produção, crie `.env.production`:
 
 ```bash
-# Instalar PM2 globalmente
-npm install -g pm2
+# Banco PostgreSQL
+DATABASE_URL="postgresql://usuario:senha@localhost:5432/linkmetur"
 
-# Iniciar aplicação
-pm2 start ecosystem.config.js --env production
+# Autenticação (produção)
+NEXTAUTH_SECRET="secret-super-seguro-producao"
+NEXTAUTH_URL="https://seudominio.com"
 
-# Salvar configuração
-pm2 save
-
-# Configurar startup
-pm2 startup
-```
-
-## 🔧 Comandos Úteis
-
-### Desenvolvimento
-
-```bash
-# Iniciar todos os serviços
-./start-dev.sh
-
-# Parar todos os serviços
-pkill -f "npm run dev"
-pkill -f "npm run start:dev"
-
-# Ver logs
-tail -f frontend/.next/server.log
-tail -f backend/logs/app.log
-tail -f landing/logs/app.log
-```
-
-### Produção
-
-```bash
-# Status dos serviços
-pm2 status
-
-# Logs em tempo real
-pm2 logs
-
-# Reiniciar todos
-pm2 restart all
-
-# Parar todos
-pm2 stop all
-
-# Iniciar todos
-pm2 start all
-
-# Monitorar recursos
-pm2 monit
+# URLs de produção
+NEXT_PUBLIC_FRONTEND_URL="https://seudominio.com"
 ```
 
 ### Banco de Dados
 
+#### Desenvolvimento (SQLite)
+- **Localização**: `frontend/prisma/dev.db`
+- **Configuração**: Automática
+- **Backup**: Não necessário
+
+#### Produção (PostgreSQL)
 ```bash
-# Backup
-pg_dump -h localhost -U linkmetur_user linkmetur > backup.sql
+# Iniciar PostgreSQL via Docker
+npm run dev:db
 
-# Restore
-psql -h localhost -U linkmetur_user linkmetur < backup.sql
-
-# Conectar ao banco
-psql -h localhost -U linkmetur_user linkmetur
+# Ou configurar PostgreSQL existente
+# Alterar DATABASE_URL no .env.production
 ```
 
-## 🧪 Testes
+## ✅ Verificação
 
-### Testes E2E
-
-```bash
-# Frontend
-cd frontend
-npm run test:e2e
-
-# Backend
-cd backend
-npm run test:e2e
-
-# Landing
-cd landing
-npm run test:e2e
-```
-
-### Testes de Produção
+### 1. Verificar Serviços
 
 ```bash
-# Teste completo
-./scripts/test-production.sh
-
-# Teste de conectividade
+# Aplicação rodando
 curl http://localhost:3000
-curl http://localhost:3001/health
-curl http://localhost:8081/health
+
+# Banco de dados funcionando
+npm run db:studio
 ```
 
-## 🐛 Troubleshooting
+### 2. Verificar Funcionalidades
 
-### Problemas Comuns
+1. **Página Inicial**: http://localhost:3000
+2. **Login**: http://localhost:3000/login
+3. **Cadastro**: http://localhost:3000/register
+4. **Dashboard**: http://localhost:3000/dashboard (após login)
 
-#### 1. Erro de Porta em Uso
+### 3. Dados de Teste
+
+Se executou o seed, use:
+```
+Email: admin@linkmetur.com.br
+Senha: admin123
+```
+
+## 🔄 Comandos Úteis
+
+### Desenvolvimento
+```bash
+npm run dev              # Iniciar em desenvolvimento
+npm run build            # Build de produção
+npm run start            # Iniciar em produção
+npm run lint             # Verificar código
+```
+
+### Banco de Dados
+```bash
+npm run db:generate      # Gerar Prisma Client
+npm run db:push          # Aplicar schema
+npm run db:seed          # Inserir dados iniciais
+npm run db:studio        # Interface visual
+```
+
+### Docker (Produção)
+```bash
+npm run dev:db           # PostgreSQL + Redis
+npm run dev:db:down      # Parar serviços
+npm run docker:logs      # Ver logs
+```
+
+## 🚨 Solução de Problemas
+
+### Erro: "Port 3000 already in use"
 
 ```bash
-# Verificar portas em uso
-netstat -tulpn | grep :3000
-netstat -tulpn | grep :3001
-netstat -tulpn | grep :8081
+# Encontrar processo usando a porta
+lsof -i :3000
 
 # Matar processo
-sudo kill -9 PID_DO_PROCESSO
+kill -9 <PID>
+
+# Ou usar porta diferente
+PORT=3001 npm run dev
 ```
 
-#### 2. Erro de Conexão com Banco
+### Erro: "Database connection failed"
 
 ```bash
-# Verificar se PostgreSQL está rodando
-sudo systemctl status postgresql
+# Regenerar Prisma Client
+npm run db:generate
 
-# Iniciar PostgreSQL
-sudo systemctl start postgresql
-
-# Verificar logs
-sudo journalctl -u postgresql
+# Recriar banco
+rm frontend/prisma/dev.db
+npm run db:push
+npm run db:seed
 ```
 
-#### 3. Erro de Permissão
+### Erro: "Module not found"
 
 ```bash
-# Corrigir permissões
-sudo chown -R $USER:$USER /var/log/linkmetur
-sudo chmod -R 755 /var/log/linkmetur
+# Limpar e reinstalar dependências
+rm -rf node_modules package-lock.json
+rm -rf frontend/node_modules frontend/package-lock.json
+npm run install:all
 ```
 
-#### 4. Erro de Memória
+### Erro: "Docker not running"
 
 ```bash
-# Verificar uso de memória
-free -h
+# Verificar se Docker está rodando
+docker info
 
-# Limpar cache
-sudo sync
-echo 3 | sudo tee /proc/sys/vm/drop_caches
-
-# Aumentar swap (se necessário)
-sudo fallocate -l 2G /swapfile
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-sudo swapon /swapfile
+# Se não estiver, iniciar Docker Desktop
+# Ou instalar Docker: https://docker.com
 ```
 
-### Logs Importantes
+### Prisma Client desatualizado
 
 ```bash
-# Logs do sistema
-sudo journalctl -f
+# Regenerar cliente
+npm run db:generate
 
-# Logs do Nginx
-sudo tail -f /var/log/nginx/error.log
-sudo tail -f /var/log/nginx/access.log
+# Se persistir, limpar cache
+npx prisma generate --schema=frontend/prisma/schema.prisma
+```
 
-# Logs do PM2
-pm2 logs
+### Problemas de Permissão
 
+```bash
+# Linux/Mac - tornar scripts executáveis
+chmod +x start-dev.sh
+chmod +x scripts/*.sh
+
+# Windows - executar como administrador
+# Ou usar Git Bash / WSL
+```
+
+## 📊 Verificação de Status
+
+### Health Check Completo
+
+```bash
+# Verificar todas as dependências
+node --version
+npm --version
+git --version
+
+# Verificar aplicação
+curl -f http://localhost:3000 || echo "App não está rodando"
+
+# Verificar banco
+npm run db:studio &
+sleep 2
+curl -f http://localhost:5555 || echo "Prisma Studio não está rodando"
+```
+
+### Logs de Debug
+
+```bash
 # Logs da aplicação
-tail -f /var/log/linkmetur/*.log
+npm run dev 2>&1 | tee app.log
+
+# Logs do banco
+npm run db:studio 2>&1 | tee db.log
+
+# Logs do Docker
+docker-compose -f docker-compose.dev.yml logs -f
 ```
 
-## 📊 Monitoramento
+## 🎯 Próximos Passos
 
-### Health Checks
+### Após Instalação Bem-sucedida
 
-- **Frontend**: http://localhost:3000
-- **Backend**: http://localhost:3001/health
-- **Landing**: http://localhost:8081/health
+1. **Explorar a aplicação**: http://localhost:3000
+2. **Criar conta**: Usar página de registro
+3. **Acessar dashboard**: Ver funcionalidades
+4. **Verificar banco**: `npm run db:studio`
 
-### Métricas
+### Para Desenvolvimento
 
-```bash
-# CPU e Memória
-htop
+1. **Ler documentação**: `ARCHITECTURE.md`
+2. **Entender estrutura**: Pasta `frontend/src/`
+3. **Modificar código**: Hot reload automático
+4. **Testar mudanças**: Refresh automático
 
-# Disco
-df -h
+### Para Produção
 
-# Rede
-netstat -i
-
-# Processos
-ps aux | grep node
-```
-
-## 🔒 Segurança
-
-### Firewall
-
-```bash
-# Configurar UFW
-sudo ufw allow 22
-sudo ufw allow 80
-sudo ufw allow 443
-sudo ufw enable
-```
-
-### SSL/TLS
-
-```bash
-# Verificar certificado
-openssl x509 -in /etc/letsencrypt/live/seu-dominio.com/fullchain.pem -text -noout
-
-# Testar SSL
-curl -I https://seu-dominio.com
-```
-
-### Backup
-
-```bash
-# Backup automático (crontab)
-0 2 * * * pg_dump -h localhost -U linkmetur_user linkmetur > /var/backups/linkmetur_$(date +\%Y\%m\%d).sql
-```
+1. **Configurar domínio**: DNS + SSL
+2. **Setup PostgreSQL**: Banco de produção
+3. **Configurar variáveis**: `.env.production`
+4. **Deploy**: Docker ou servidor
 
 ## 📞 Suporte
 
-### Contatos
+### Se Precisar de Ajuda
 
+- **GitHub Issues**: [Criar issue](https://github.com/linkmetur/linkmetur/issues)
 - **Email**: suporte@linkmetur.com.br
-- **GitHub**: [Issues](https://github.com/linkmetur/linkmetur/issues)
-- **Documentação**: [Wiki](https://github.com/linkmetur/linkmetur/wiki)
+- **Documentação**: README.md e ARCHITECTURE.md
 
-### SLA
+### Informações Úteis para Suporte
 
-- **Crítico**: 1 hora
-- **Alto**: 4 horas
-- **Médio**: 24 horas
-- **Baixo**: 72 horas
+Sempre inclua:
+- Sistema operacional
+- Versão do Node.js
+- Logs de erro completos
+- Passos para reproduzir o problema
 
 ---
 
-*Guia atualizado em: Janeiro 2025*
-*Versão: 2.0.0*
+**🎉 Parabéns! LinkMeTur instalado com sucesso!**
+
+*Última atualização: Janeiro 2025*

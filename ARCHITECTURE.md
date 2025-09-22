@@ -3,16 +3,16 @@
 ## 📋 Índice
 - [Visão Geral da Arquitetura](#visão-geral-da-arquitetura)
 - [Estrutura do Projeto](#estrutura-do-projeto)
-- [Backend (NestJS)](#backend-nestjs)
 - [Frontend (Next.js)](#frontend-nextjs)
+- [Banco de Dados](#banco-de-dados)
 - [Fluxo de Dados](#fluxo-de-dados)
 - [Padrões de Design](#padrões-de-design)
-- [Testes](#testes)
-- [Deployment](#deployment)
+- [Segurança](#segurança)
+- [Performance](#performance)
 
 ## 🏗️ Visão Geral da Arquitetura
 
-O LinkMeTur segue uma arquitetura **monorepo** com separação clara entre frontend e backend, utilizando tecnologias modernas para garantir escalabilidade, manutenibilidade e performance.
+O LinkMeTur utiliza uma **arquitetura monolítica moderna** com Next.js 15, focando em simplicidade, performance e facilidade de manutenção.
 
 ### Arquitetura de Alto Nível
 
@@ -20,155 +20,77 @@ O LinkMeTur segue uma arquitetura **monorepo** com separação clara entre front
 graph TB
     subgraph "Cliente"
         Browser[Navegador Web]
-        Mobile[App Mobile]
+        Mobile[Dispositivos Móveis]
     end
     
-    subgraph "Frontend Layer"
-        NextJS[Next.js App<br/>Port: 3000]
-    end
-    
-    subgraph "Backend Layer"
-        NestAPI[NestJS API<br/>Port: 5001]
-        Swagger[Swagger Docs<br/>/docs]
+    subgraph "Aplicação"
+        NextJS[Next.js 15<br/>Port: 3000]
+        API[API Routes<br/>Built-in]
     end
     
     subgraph "Dados"
-        Memory[(Em Memória)]
-        Future[(Futuro: Database)]
+        SQLite[(SQLite<br/>Desenvolvimento)]
+        PostgreSQL[(PostgreSQL<br/>Produção)]
+        Redis[(Redis<br/>Cache)]
     end
     
     Browser --> NextJS
     Mobile --> NextJS
-    NextJS --> NestAPI
-    NestAPI --> Memory
-    NestAPI --> Swagger
+    NextJS --> API
+    API --> SQLite
+    API --> PostgreSQL
+    API --> Redis
     
     style NextJS fill:#0070f3
-    style NestAPI fill:#e0234e
-    style Swagger fill:#85ea2d
+    style API fill:#00d8ff
+    style SQLite fill:#003b57
+    style PostgreSQL fill:#336791
+    style Redis fill:#dc382d
 ```
 
 ### Características Arquiteturais
 
-- ✅ **Monorepo**: Gerenciamento centralizado com workspaces
-- ✅ **Microservices Ready**: Estrutura preparada para evolução
-- ✅ **API-First**: Backend independente com documentação OpenAPI
+- ✅ **Monolito Modular**: Uma aplicação, múltiplos módulos
+- ✅ **API-First**: API Routes nativas do Next.js
 - ✅ **Type Safety**: TypeScript em todo o stack
 - ✅ **Modern Stack**: Tecnologias atuais e bem suportadas
-- ✅ **Testing**: Cobertura completa de testes
-- ✅ **Documentation**: Documentação automática e manual
+- ✅ **Database Agnostic**: SQLite para dev, PostgreSQL para prod
+- ✅ **Cache Ready**: Redis para cache e sessões
 
 ## 📁 Estrutura do Projeto
 
 ```
-linkmetur-api/
-├── 📁 backend/                 # API NestJS
+LinkMeTur/
+├── 📁 frontend/                # Aplicação Next.js 15
 │   ├── 📁 src/
-│   │   ├── 📄 main.ts          # Entry point
-│   │   ├── 📄 app.module.ts    # Módulo raiz
-│   │   ├── 📄 app.controller.ts # Controller principal
-│   │   ├── 📄 app.service.ts   # Service principal
-│   │   └── 📁 health/          # Módulo de health check
-│   │       ├── 📄 health.controller.ts
-│   │       └── 📄 health.module.ts
-│   ├── 📁 test/                # Testes E2E
-│   ├── 📁 dist/                # Build output
-│   ├── 📄 package.json         # Dependências backend
-│   └── 📄 tsconfig.json        # Config TypeScript
-├── 📁 frontend/                # App Next.js
-│   ├── 📁 src/app/
-│   │   ├── 📄 layout.tsx       # Layout raiz
-│   │   ├── 📄 page.tsx         # Página inicial
-│   │   └── 📄 globals.css      # Estilos globais
-│   ├── 📁 public/              # Assets estáticos
-│   ├── 📄 package.json         # Dependências frontend
-│   ├── 📄 next.config.ts       # Config Next.js
-│   └── 📄 tailwind.config.js   # Config Tailwind
-├── 📄 package.json             # Workspace root
-└── 📄 README.md                # Documentação principal
+│   │   ├── 📁 app/            # App Router
+│   │   │   ├── 📁 api/        # API Routes
+│   │   │   │   ├── 📁 auth/   # Autenticação
+│   │   │   │   ├── 📁 contacts/ # Contatos
+│   │   │   │   ├── 📁 corporations/ # Empresas
+│   │   │   │   └── 📁 jobs/   # Serviços
+│   │   │   ├── 📁 dashboard/  # Dashboard
+│   │   │   ├── 📁 login/      # Login
+│   │   │   ├── 📁 register/   # Cadastro
+│   │   │   ├── 📄 layout.tsx  # Layout raiz
+│   │   │   ├── 📄 page.tsx    # Página inicial
+│   │   │   └── 📄 globals.css # Estilos globais
+│   │   └── 📁 lib/            # Utilitários
+│   │       └── 📄 prisma.ts   # Cliente Prisma
+│   ├── 📁 prisma/             # Schema e migrations
+│   │   ├── 📄 schema.prisma   # Schema do banco
+│   │   ├── 📄 seed.ts         # Dados iniciais
+│   │   └── 📄 dev.db          # SQLite (dev)
+│   ├── 📁 public/             # Assets estáticos
+│   ├── 📄 package.json        # Dependências
+│   ├── 📄 next.config.ts      # Config Next.js
+│   └── 📄 tailwind.config.js  # Config Tailwind
+├── 📁 scripts/                # Scripts de banco
+├── 📁 nginx/                  # Config Nginx
+├── 📄 docker-compose.dev.yml  # Infraestrutura dev
+├── 📄 package.json            # Workspace root
+└── 📄 start-dev.sh           # Script de início
 ```
-
-## 🔧 Backend (NestJS)
-
-### Arquitetura do Backend
-
-```mermaid
-graph TB
-    subgraph "NestJS Application"
-        subgraph "Core Layer"
-            Main[main.ts<br/>Bootstrap]
-            AppModule[AppModule<br/>Root Module]
-        end
-        
-        subgraph "Feature Modules"
-            AppController[AppController<br/>Root Endpoints]
-            AppService[AppService<br/>Business Logic]
-            HealthModule[HealthModule<br/>Health Check]
-            HealthController[HealthController<br/>Health Endpoints]
-        end
-        
-        subgraph "Cross-cutting"
-            Validation[Global Validation]
-            CORS[CORS Configuration]
-            Swagger[Swagger Documentation]
-        end
-    end
-    
-    Main --> AppModule
-    AppModule --> AppController
-    AppModule --> HealthModule
-    AppController --> AppService
-    HealthModule --> HealthController
-    Main --> Validation
-    Main --> CORS
-    Main --> Swagger
-    
-    style Main fill:#e0234e
-    style AppModule fill:#ff6b6b
-    style Swagger fill:#85ea2d
-```
-
-### Componentes do Backend
-
-#### 1. **main.ts** - Bootstrap da Aplicação
-```typescript
-// Configurações globais
-- ValidationPipe (whitelist, transform)
-- CORS (localhost:3000)
-- Swagger Documentation
-- Port configuration (5001)
-```
-
-#### 2. **AppModule** - Módulo Raiz
-```typescript
-// Imports
-- ConfigModule (global)
-- HealthModule
-
-// Características
-- Configuração global de ambiente
-- Registro de módulos features
-```
-
-#### 3. **Controllers**
-- **AppController**: Endpoint raiz (`/`)
-- **HealthController**: Health check (`/health`)
-
-#### 4. **Services**
-- **AppService**: Lógica de negócio básica
-
-#### 5. **Middlewares e Guards**
-- **ValidationPipe**: Validação automática de DTOs
-- **CORS**: Configuração de cross-origin
-- **Global Exception Filter**: Tratamento de erros (implícito)
-
-### Padrões Implementados
-
-1. **Module Pattern**: Organização em módulos
-2. **Dependency Injection**: Injeção de dependências nativa
-3. **Decorator Pattern**: Uso extensivo de decorators
-4. **Service Layer Pattern**: Separação de lógica de negócio
-5. **API Documentation**: Auto-geração com Swagger
 
 ## 🎨 Frontend (Next.js)
 
@@ -179,72 +101,186 @@ graph TB
     subgraph "Next.js Application"
         subgraph "App Router"
             Layout[layout.tsx<br/>Root Layout]
-            Page[page.tsx<br/>Home Page]
+            Pages[Pages<br/>page.tsx]
+            API[API Routes<br/>route.ts]
+        end
+        
+        subgraph "Data Layer"
+            Prisma[Prisma Client<br/>Database ORM]
+            SQLite[SQLite<br/>Development]
+            PostgreSQL[PostgreSQL<br/>Production]
         end
         
         subgraph "Styling"
-            GlobalCSS[globals.css<br/>Global Styles]
             Tailwind[Tailwind CSS<br/>Utility Classes]
+            GlobalCSS[globals.css<br/>Global Styles]
         end
         
-        subgraph "Assets"
-            Public[public/<br/>Static Assets]
-            Fonts[Geist Fonts<br/>Typography]
-        end
-        
-        subgraph "API Integration"
-            HealthAPI[Health Check<br/>API Call]
+        subgraph "Authentication"
+            NextAuth[NextAuth.js<br/>Authentication]
+            JWT[JWT Tokens<br/>Session Management]
         end
     end
     
-    Layout --> Page
-    Page --> HealthAPI
+    Layout --> Pages
+    Pages --> API
+    API --> Prisma
+    Prisma --> SQLite
+    Prisma --> PostgreSQL
+    Layout --> Tailwind
     Layout --> GlobalCSS
-    GlobalCSS --> Tailwind
-    Layout --> Fonts
-    Page --> Public
+    API --> NextAuth
+    NextAuth --> JWT
     
     style Layout fill:#0070f3
-    style Page fill:#00d8ff
+    style Pages fill:#00d8ff
+    style API fill:#10b981
+    style Prisma fill:#2d3748
     style Tailwind fill:#06b6d4
 ```
 
 ### Componentes do Frontend
 
-#### 1. **layout.tsx** - Layout Raiz
+#### 1. **App Router** - Sistema de Roteamento
 ```typescript
-// Funcionalidades
-- Configuração de fontes (Geist)
-- Metadata da aplicação
-- Estrutura HTML base
-- Variáveis CSS customizadas
+// Estrutura de rotas
+app/
+├── page.tsx           # / (home)
+├── login/page.tsx     # /login
+├── register/page.tsx  # /register
+├── dashboard/page.tsx # /dashboard
+└── api/
+    ├── auth/
+    ├── contacts/
+    ├── corporations/
+    └── jobs/
 ```
 
-#### 2. **page.tsx** - Página Inicial
+#### 2. **API Routes** - Backend Integrado
 ```typescript
-// Funcionalidades
-- Server-side API call
-- Health check display
-- Error handling
-- Responsive design
+// Padrão de API Route
+export async function GET(request: Request) {
+  // Lógica de busca
+  return Response.json({ data })
+}
+
+export async function POST(request: Request) {
+  // Lógica de criação
+  return Response.json({ success: true })
+}
 ```
 
-#### 3. **globals.css** - Estilos Globais
-```css
-/* Recursos */
-- Tailwind imports
-- CSS Variables (light/dark)
-- Reset CSS
-- Typography base
+#### 3. **Prisma Integration** - ORM
+```typescript
+// Cliente Prisma
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+// Operações CRUD
+const users = await prisma.user.findMany()
+const user = await prisma.user.create({ data })
 ```
 
 ### Padrões Implementados
 
-1. **App Router**: Roteamento baseado em arquivos
-2. **Server Components**: Renderização no servidor
-3. **CSS-in-JS**: Tailwind CSS utilities
-4. **Responsive Design**: Mobile-first approach
-5. **Dark Mode**: Suporte automático
+1. **App Router Pattern**: Roteamento baseado em arquivos
+2. **Server Components**: Renderização no servidor por padrão
+3. **API Routes**: Backend integrado ao frontend
+4. **TypeScript First**: Tipagem em tudo
+5. **CSS Utility**: Tailwind CSS para estilização
+
+## 🗄️ Banco de Dados
+
+### Arquitetura de Dados
+
+```mermaid
+erDiagram
+    Corporation ||--o{ User : has
+    Corporation ||--o{ Job : owns
+    Corporation ||--o{ Contact : manages
+    User ||--o{ Contact : created_by
+    Job ||--o{ JobPhoto : has
+    
+    Corporation {
+        string id PK
+        string name
+        string email UK
+        string phone
+        string cnpj UK
+        string address
+        datetime createdAt
+        datetime updatedAt
+    }
+    
+    User {
+        string id PK
+        string email UK
+        string name
+        string password
+        string phone
+        int level
+        string corpId FK
+        datetime createdAt
+        datetime updatedAt
+    }
+    
+    Job {
+        string id PK
+        string corpId FK
+        string name
+        string category
+        string description
+        float minValue
+        float maxValue
+        int views
+        boolean published
+        datetime createdAt
+        datetime updatedAt
+    }
+    
+    Contact {
+        string id PK
+        string corpId FK
+        string userId FK
+        string name
+        string email
+        string phone
+        string company
+        boolean favorited
+        datetime createdAt
+        datetime updatedAt
+    }
+```
+
+### Configuração do Prisma
+
+```prisma
+// Schema principal
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"      // Desenvolvimento
+  // provider = "postgresql" // Produção
+  url      = env("DATABASE_URL")
+}
+
+// Modelos principais
+model User { ... }
+model Corporation { ... }
+model Job { ... }
+model Contact { ... }
+```
+
+### Estratégia de Banco
+
+1. **Desenvolvimento**: SQLite para simplicidade
+2. **Produção**: PostgreSQL para robustez
+3. **Migrations**: Automáticas via Prisma
+4. **Seeding**: Dados iniciais via script
+5. **Backup**: Estratégias por ambiente
 
 ## 🔄 Fluxo de Dados
 
@@ -254,228 +290,177 @@ graph TB
 sequenceDiagram
     participant U as User
     participant F as Frontend<br/>(Next.js)
-    participant B as Backend<br/>(NestJS)
+    participant A as API Route
+    participant P as Prisma
+    participant D as Database
     
-    U->>F: Acessa aplicação
+    U->>F: Acessa página
     F->>F: Server-side rendering
-    F->>B: GET /health
-    B->>B: HealthController.get()
-    B-->>F: {status: "ok", service: "linkmetur-api"}
-    F->>F: Renderiza página
+    F->>A: API call (interno)
+    A->>P: Prisma query
+    P->>D: SQL query
+    D-->>P: Result set
+    P-->>A: Typed data
+    A-->>F: JSON response
+    F->>F: Renderiza componente
     F-->>U: HTML + dados
     
-    Note over F,B: CORS: localhost:3000 → localhost:5001
-    Note over B: Validation, Error Handling
-    Note over F: SSR, Hydration
+    Note over F,A: Mesma aplicação
+    Note over P,D: ORM abstraction
+    Note over F: SSR + Hydration
 ```
 
-### Fluxo de Desenvolvimento
+### Fluxo de Autenticação
 
 ```mermaid
-graph LR
-    subgraph "Development Flow"
-        Code[Código] --> Test[Testes]
-        Test --> Build[Build]
-        Build --> Deploy[Deploy]
-    end
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant A as Auth API
+    participant D as Database
+    participant S as Session
     
-    subgraph "Backend Flow"
-        NestDev[npm run start:dev] --> NestTest[npm run test:e2e]
-        NestTest --> NestBuild[npm run build]
-    end
+    U->>F: Login request
+    F->>A: POST /api/auth/login
+    A->>D: Verify credentials
+    D-->>A: User data
+    A->>S: Create session
+    S-->>A: Session token
+    A-->>F: Auth response + token
+    F->>F: Store token
+    F-->>U: Redirect to dashboard
     
-    subgraph "Frontend Flow"
-        NextDev[npm run dev] --> NextBuild[npm run build]
-        NextBuild --> NextStart[npm run start]
-    end
-    
-    Code --> NestDev
-    Code --> NextDev
-    
-    style Code fill:#f9f
-    style Test fill:#9f9
-    style Build fill:#99f
-    style Deploy fill:#f99
+    Note over A,S: JWT or Session
+    Note over F: Client-side storage
 ```
 
 ## 🎯 Padrões de Design
 
-### Backend Patterns
-
-1. **Module Pattern**
-   - Organização por features
-   - Encapsulamento de funcionalidades
-   - Injeção de dependências
-
-2. **Controller-Service Pattern**
-   - Separação de responsabilidades
-   - Controllers: HTTP handling
-   - Services: Business logic
-
-3. **Middleware Pattern**
-   - ValidationPipe
-   - CORS middleware
-   - Exception filters
-
-4. **Decorator Pattern**
-   - Route decorators (@Get, @Post)
-   - Validation decorators
-   - Module decorators
-
 ### Frontend Patterns
 
-1. **Server Components**
-   - Server-side rendering
-   - Data fetching no servidor
-   - Melhor SEO e performance
+1. **Server Components First**
+   - Renderização no servidor por padrão
+   - Client Components apenas quando necessário
+   - Melhor SEO e performance inicial
 
-2. **Composition Pattern**
+2. **API Routes Pattern**
+   - Backend integrado ao frontend
+   - Roteamento automático baseado em arquivos
+   - Type safety entre frontend e backend
+
+3. **Prisma Pattern**
+   - Type-safe database access
+   - Auto-generated types
+   - Migration management
+
+4. **Composition Pattern**
    - Layout composition
    - Component reusability
    - Props drilling prevention
 
-3. **CSS Utility Pattern**
-   - Tailwind CSS utilities
-   - Atomic CSS approach
-   - Design system consistency
+### Code Patterns
 
-## 🧪 Testes
+1. **TypeScript Strict**
+   - Tipagem obrigatória
+   - No implicit any
+   - Strict null checks
 
-### Estratégia de Testes
+2. **Error Handling**
+   - Try-catch em API routes
+   - Error boundaries em componentes
+   - Graceful degradation
 
-```mermaid
-graph TB
-    subgraph "Test Pyramid"
-        E2E[E2E Tests<br/>Integration]
-        Unit[Unit Tests<br/>Components/Services]
-        Static[Static Tests<br/>Linting/Types]
-    end
-    
-    subgraph "Backend Testing"
-        Jest[Jest Framework]
-        Supertest[Supertest HTTP]
-        Coverage[Coverage Reports]
-    end
-    
-    subgraph "Frontend Testing"
-        NextTest[Next.js Testing]
-        ESLint[ESLint Rules]
-        TypeCheck[Type Checking]
-    end
-    
-    E2E --> Jest
-    E2E --> Supertest
-    Unit --> Jest
-    Unit --> Coverage
-    Static --> ESLint
-    Static --> TypeCheck
-    
-    style E2E fill:#ff6b6b
-    style Unit fill:#4ecdc4
-    style Static fill:#45b7d1
+3. **Validation**
+   - Input validation
+   - Type validation
+   - Business rule validation
+
+## 🔒 Segurança
+
+### Medidas de Segurança
+
+1. **Authentication**
+   - JWT tokens ou NextAuth.js
+   - Secure session management
+   - Password hashing (bcrypt)
+
+2. **Authorization**
+   - Role-based access control
+   - Route protection
+   - API endpoint protection
+
+3. **Input Validation**
+   - Server-side validation
+   - Sanitização de dados
+   - SQL injection prevention (Prisma)
+
+4. **Security Headers**
+   - CSRF protection
+   - XSS protection
+   - Content Security Policy
+
+### Implementação
+
+```typescript
+// Middleware de autenticação
+export async function middleware(request: NextRequest) {
+  const token = request.cookies.get('token')
+  
+  if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+}
+
+// Validação de entrada
+export async function POST(request: Request) {
+  const body = await request.json()
+  
+  // Validação
+  if (!body.email || !body.password) {
+    return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
+  }
+  
+  // Processamento seguro
+}
 ```
 
-### Cobertura de Testes Atual
+## ⚡ Performance
 
-#### Backend
-- ✅ **Unit Tests**: Controllers, Services
-- ✅ **Integration Tests**: API endpoints
-- ✅ **E2E Tests**: Full application flow
-- ✅ **Performance Tests**: Load testing
-- ✅ **Error Handling Tests**: 404, validation
+### Estratégias de Performance
 
-#### Frontend
-- ⏳ **Planejado**: Component tests
-- ⏳ **Planejado**: Integration tests
-- ✅ **Static Analysis**: ESLint, TypeScript
+1. **Server-Side Rendering**
+   - Renderização no servidor
+   - Hydration otimizada
+   - Core Web Vitals otimizados
 
-## 🚀 Deployment
+2. **Code Splitting**
+   - Lazy loading automático
+   - Route-based splitting
+   - Component-level splitting
 
-### Arquitetura de Deploy
+3. **Image Optimization**
+   - Next.js Image component
+   - Automatic format selection
+   - Responsive images
 
-```mermaid
-graph TB
-    subgraph "Development"
-        DevFE[Frontend Dev<br/>:3000]
-        DevBE[Backend Dev<br/>:5001]
-    end
-    
-    subgraph "Production"
-        ProdFE[Frontend Prod<br/>Static/SSR]
-        ProdBE[Backend Prod<br/>Node.js]
-        LB[Load Balancer]
-        DB[(Database)]
-    end
-    
-    subgraph "Infrastructure"
-        Docker[Docker Containers]
-        K8s[Kubernetes]
-        CI[CI/CD Pipeline]
-    end
-    
-    DevFE --> ProdFE
-    DevBE --> ProdBE
-    LB --> ProdFE
-    LB --> ProdBE
-    ProdBE --> DB
-    
-    Docker --> K8s
-    CI --> Docker
-    
-    style ProdFE fill:#0070f3
-    style ProdBE fill:#e0234e
-    style LB fill:#85ea2d
-```
+4. **Caching**
+   - Static generation quando possível
+   - API response caching
+   - Database query optimization
 
-### Estratégias de Deploy
+### Métricas Alvo
 
-1. **Containerização**
-   - Docker para backend
-   - Docker para frontend
-   - Multi-stage builds
+- **First Contentful Paint**: < 1.5s
+- **Largest Contentful Paint**: < 2.5s
+- **Cumulative Layout Shift**: < 0.1
+- **Time to Interactive**: < 3.5s
 
-2. **Orquestração**
-   - Kubernetes deployment
-   - Auto-scaling
-   - Health checks
+## 🚀 Escalabilidade
 
-3. **CI/CD**
-   - GitHub Actions
-   - Automated testing
-   - Blue-green deployment
-
-## 🔮 Evolução da Arquitetura
-
-### Roadmap Arquitetural
-
-#### Fase 1 (Atual) - MVP
-- ✅ Monorepo setup
-- ✅ Basic API endpoints
-- ✅ Frontend integration
-- ✅ Testing framework
-
-#### Fase 2 - Features Core
-- [ ] Database integration
-- [ ] Authentication system
-- [ ] CRUD operations
-- [ ] State management
-
-#### Fase 3 - Scale & Performance
-- [ ] Caching layer (Redis)
-- [ ] Database optimization
-- [ ] CDN integration
-- [ ] Monitoring & observability
-
-#### Fase 4 - Advanced Features
-- [ ] Microservices migration
-- [ ] Real-time features (WebSocket)
-- [ ] Advanced analytics
-- [ ] ML/AI integration
-
-### Considerações de Escalabilidade
+### Estratégias de Escala
 
 1. **Horizontal Scaling**
-   - Stateless backend design
+   - Stateless application design
    - Database read replicas
    - CDN for static assets
 
@@ -485,12 +470,20 @@ graph TB
    - CPU utilization
 
 3. **Caching Strategy**
-   - Application-level cache
-   - Database query cache
-   - Static asset cache
+   - Redis for session storage
+   - Database query caching
+   - Static asset caching
+
+### Preparação para Microserviços
+
+A arquitetura atual permite migração gradual para microserviços:
+
+1. **API Routes** → **Standalone APIs**
+2. **Prisma Models** → **Service Databases**
+3. **Shared Types** → **API Contracts**
 
 ---
 
-**Última atualização**: Setembro 2025
-**Versão da Arquitetura**: 1.0.0
-**Status**: ✅ Implementado e Documentado
+**Última atualização**: setembro 2025
+**Versão da Arquitetura**: 2.0.0
+**Status**: ✅ Implementado e Funcional

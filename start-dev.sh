@@ -12,53 +12,30 @@ fi
 
 # Iniciar serviços de infraestrutura
 echo "📦 Iniciando serviços de infraestrutura (PostgreSQL, Redis)..."
-docker-compose up -d postgres redis
+docker-compose -f docker-compose.dev.yml up -d
 
 # Aguardar os serviços ficarem prontos
 echo "⏳ Aguardando serviços ficarem prontos..."
 sleep 10
 
-# Instalar dependências do frontend
-echo "📦 Instalando dependências do frontend..."
-cd frontend
-npm install
-cd ..
+# Instalar dependências
+echo "📦 Instalando dependências..."
+npm run install:all
 
-# Instalar dependências do backend
-echo "📦 Instalando dependências do backend..."
-cd backend
-npm install
-cd ..
+# Gerar Prisma Client
+echo "🔧 Gerando Prisma Client..."
+npm run db:generate
 
-# Instalar dependências do landing
-echo "📦 Instalando dependências do landing..."
-cd landing
-npm install
-cd ..
+# Aplicar migrações do banco
+echo "🗄️ Aplicando migrações do banco..."
+npm run db:push
 
-# Iniciar todos os serviços
-echo "🚀 Iniciando todos os serviços..."
+# Executar seed do banco (opcional)
+echo "🌱 Executando seed do banco..."
+npm run db:seed || echo "⚠️ Seed falhou ou não disponível"
 
-# Iniciar backend em background
-echo "🔧 Iniciando backend..."
-cd backend
-npm run start:dev &
-BACKEND_PID=$!
-cd ..
-
-# Iniciar landing em background
-echo "🌐 Iniciando landing API..."
-cd landing
-npm run start:dev &
-LANDING_PID=$!
-cd ..
-
-# Aguardar APIs ficarem prontas
-echo "⏳ Aguardando APIs ficarem prontas..."
-sleep 15
-
-# Iniciar frontend
-echo "🎨 Iniciando frontend..."
+# Iniciar aplicação
+echo "🎨 Iniciando aplicação Next.js..."
 cd frontend
 npm run dev &
 FRONTEND_PID=$!
@@ -68,10 +45,9 @@ echo "✅ Ambiente de desenvolvimento iniciado!"
 echo ""
 echo "📱 Serviços disponíveis:"
 echo "   Frontend:     http://localhost:3000"
-echo "   Backend API:  http://localhost:3001"
-echo "   Landing API:  http://localhost:8081"
-echo "   Swagger:      http://localhost:3001/docs"
-echo "   Landing Docs: http://localhost:8081/api"
+echo "   PostgreSQL:   localhost:5432"
+echo "   Redis:        localhost:6379"
+echo "   Prisma Studio: npm run db:studio"
 echo ""
 echo "🛑 Para parar todos os serviços, pressione Ctrl+C"
 
@@ -79,7 +55,8 @@ echo "🛑 Para parar todos os serviços, pressione Ctrl+C"
 cleanup() {
     echo ""
     echo "🛑 Parando serviços..."
-    kill $BACKEND_PID $LANDING_PID $FRONTEND_PID 2>/dev/null
+    kill $FRONTEND_PID 2>/dev/null
+    docker-compose -f docker-compose.dev.yml down
     echo "✅ Serviços parados."
     exit 0
 }
