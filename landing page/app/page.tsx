@@ -25,7 +25,7 @@ export default function Landing() {
               "Para quem",
               "Vantagens",
               "Perguntas Frequentes",
-              "Evento",
+              "Turismo Talks",
               "Contato",
             ].map((item) => (
               <a
@@ -38,7 +38,7 @@ export default function Landing() {
             ))}
           </nav>
           <Button
-            href="#contato"
+            href="/cadastro"
             variant="contained"
             size="large"
             sx={{
@@ -75,7 +75,7 @@ export default function Landing() {
               Conectamos quem precisa com quem resolve
             </p>
             <Button
-              href="#contato"
+              href="/cadastro"
               variant="contained"
               size="large"
               sx={{
@@ -203,7 +203,7 @@ export default function Landing() {
               Para empresas do turismo
             </h3>
             <p className="text-gray-600 mb-4">
-              Empresas do Trade Turístico: (Meios de hospedagem, agências,
+               (Meios de hospedagem, agências,
               atrativos, guias, restaurantes, eventos, transporte e produtores
               locais)
             </p>
@@ -227,7 +227,7 @@ export default function Landing() {
               Para prestadores de serviço
             </h3>
             <p className="text-gray-600 mb-4">
-              Prestadores de Serviços: (Marketing, tecnologia, jurídico,
+              (Marketing, tecnologia, jurídico,
               contabilidade, ESG, inovação e mais)
             </p>
             <ul className="list-disc list-inside text-gray-600 space-y-1">
@@ -263,15 +263,75 @@ export default function Landing() {
             feita sob medida para as necessidades reais do mercado e do seu
             negócio, veja como você ganha ao fazer parte da LinkMe Tur:
           </p>
-          <div className="mt-10 w-full">
-            <Image
-              src="/nova.png"
-              alt="Benefícios do ecossistema LinkMe Tur"
-              width={1600}
-              height={800}
-              className="mx-auto object-contain"
-              priority
-            />
+          
+          {/* Cards de Benefícios */}
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-5 gap-6 max-w-6xl mx-auto">
+            {/* Card 1 - Prioridade */}
+            <div className="bg-white rounded-xl p-4 shadow-lg text-center w-full h-72 flex flex-col">
+              <div className="w-12 h-12 bg-white border-2 border-[#2BE58F] rounded-lg flex items-center justify-center mx-auto mt-2 mb-4">
+                <svg className="w-6 h-6 fill-[#2BE58F]" viewBox="0 0 24 24">
+                  <path d="M6 10v-4c0-3.313 2.687-6 6-6s6 2.687 6 6v4h1c1.104 0 2 .896 2 2v8c0 1.104-.896 2-2 2H5c-1.104 0-2-.896-2-2v-8c0-1.104.896-2 2-2h1zm2 0h8v-4c0-2.206-1.794-4-4-4s-4 1.794-4 4v4z"/>
+                </svg>
+              </div>
+              <div className="flex-1 flex items-center justify-center px-2">
+                <h4 className="font-bold text-gray-800 text-sm leading-tight">Prioridade para acessar e testar o MVP gratuitamente antes do lançamento</h4>
+              </div>
+            </div>
+
+            {/* Card 2 - Visibilidade */}
+            <div className="bg-white rounded-xl p-4 shadow-lg text-center w-full h-72 flex flex-col">
+              <div className="w-12 h-12 bg-white border-2 border-[#2BE58F] rounded-lg flex items-center justify-center mx-auto mt-2 mb-4">
+                <svg className="w-6 h-6 fill-[#2BE58F]" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <div className="flex-1 flex items-center justify-center px-2">
+                <h4 className="font-bold text-gray-800 text-sm leading-tight">Visibilidade como apoiador de um projeto inovador e de impacto regional</h4>
+              </div>
+            </div>
+
+            {/* Card 3 - Posicionamento */}
+            <div className="bg-white rounded-xl p-4 shadow-lg text-center w-full h-72 flex flex-col">
+              <div className="w-12 h-12 bg-white border-2 border-[#2BE58F] rounded-lg flex items-center justify-center mx-auto mt-2 mb-4">
+                <svg className="w-6 h-6 fill-[#2BE58F]" viewBox="0 0 24 24">
+                  <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+              </div>
+              <div className="flex-1 flex items-center justify-center px-2">
+                <h4 className="font-bold text-gray-800 text-sm leading-tight">Se posiciona à frente em um mercado que valoriza inovação, eficiência e parcerias confiáveis</h4>
+              </div>
+            </div>
+
+            {/* Card 4 - Chance de gerar negócios */}
+            <div className="bg-white rounded-xl p-4 shadow-lg text-center w-full h-72 flex flex-col">
+              <div className="w-12 h-12 bg-white border-2 border-[#2BE58F] rounded-lg flex items-center justify-center mx-auto mt-2 mb-4">
+                <svg className="w-6 h-6 fill-[#2BE58F]" viewBox="0 0 24 24">
+                  <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/>
+                </svg>
+              </div>
+              <div className="flex-1 flex items-center justify-center px-2">
+                <h4 className="font-bold text-gray-800 text-sm leading-tight">Tem a chance de gerar novos negócios e fortalecer sua marca e crescer junto com um setor em plena expansão</h4>
+              </div>
+            </div>
+
+            {/* Card 5 - Amplia conexões */}
+            <div className="bg-white rounded-xl p-4 shadow-lg text-center w-full h-72 flex flex-col">
+              <div className="w-12 h-12 bg-white border-2 border-[#2BE58F] rounded-lg flex items-center justify-center mx-auto mt-2 mb-4">
+                <svg className="w-6 h-6 fill-[#2BE58F]" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <div className="flex-1 flex items-center justify-center px-2">
+                <h4 className="font-bold text-gray-800 text-sm leading-tight">Amplia suas conexões com empresas e profissionais do ecossistema turístico</h4>
+              </div>
+            </div>
+          </div>
+
+          {/* Texto de Call to Action */}
+          <div className="mt-12">
+            <h3 className="text-2xl md:text-3xl font-bold text-black mb-8">
+              Participar é rápido, gratuito e pode abrir portas valiosas para o futuro do seu negócio!
+            </h3>
           </div>
         </div>
       </section>
@@ -303,7 +363,7 @@ export default function Landing() {
       </section>
 
       {/* EVENTO */}
-      <section id="evento" className="py-16 bg-gray-100">
+      <section id="turismo-talks" className="py-16 bg-gray-100">
         <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="grid md:grid-cols-2 gap-8 px-8 py-10 items-center">
             <div className="space-y-6">
@@ -326,7 +386,9 @@ export default function Landing() {
                 nosso convidado!
               </p>
               <Button
-                href="#evento"
+                href="https://instagram.com/reel/DMffP1ox9JP/?igsh=MXU0amN1cDNpOGloeA=="
+                target="_blank"
+                rel="noopener noreferrer"
                 variant="contained"
                 size="large"
                 sx={{
@@ -340,7 +402,7 @@ export default function Landing() {
                   fontSize: "1rem",
                 }}
               >
-                Quero participar do evento
+                Veja como foi o evento
               </Button>
               <ul className="mt-6 text-gray-700 space-y-2 text-base">
                 <li>
@@ -462,7 +524,7 @@ export default function Landing() {
           <div className="flex space-x-4">
             {/* Instagram */}
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/linkmetur/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition"
@@ -476,25 +538,9 @@ export default function Landing() {
                 <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5zM18 6.2a.8.8 0 1 1-.8.8.8.8 0 0 1 .8-.8z" />
               </svg>
             </a>
-            {/* Facebook */}
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition"
-              aria-label="Facebook"
-            >
-              <svg
-                className="w-6 h-6 fill-current"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path d="M13 22v-8h3l1-4h-4V7.5A1.5 1.5 0 0 1 14.5 6H17V2h-3.5A4.5 4.5 0 0 0 9 6.5V10H6v4h3v8z" />
-              </svg>
-            </a>
             {/* LinkedIn */}
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/company/linkmetur/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition"
