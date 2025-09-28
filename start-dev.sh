@@ -36,7 +36,7 @@ npm run db:seed || echo "⚠️ Seed falhou ou não disponível"
 
 # Iniciar aplicação
 echo "🎨 Iniciando aplicação Next.js..."
-cd frontend
+cd "landing page"
 npm run dev &
 FRONTEND_PID=$!
 cd ..
