@@ -29,8 +29,10 @@ export default function Cadastro() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Dados do formulário:", formData);
-    // Aqui você pode adicionar a lógica para enviar os dados
-    alert("Cadastro realizado com sucesso! Entraremos em contato em breve.");
+    // Simulando cadastro bem-sucedido
+    alert("Cadastro realizado com sucesso! Redirecionando para o dashboard...");
+    // Redirecionar para dashboard após cadastro
+    window.location.href = "/dashboard";
   };
 
   return (
@@ -50,19 +52,19 @@ export default function Cadastro() {
         </div>
       </header>
 
-      {/* AVISO DE DESENVOLVIMENTO */}
-      <section className="py-6 bg-red-50 border-b border-red-200">
+      {/* AVISO BETA */}
+      <section className="py-6 bg-blue-50 border-b border-blue-200">
         <div className="max-w-4xl mx-auto px-8">
-          <div className="flex items-start justify-center text-red-800">
+          <div className="flex items-start justify-center text-blue-800">
             <svg className="w-6 h-6 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
             </svg>
             <div className="text-center">
-              <h3 className="text-lg font-bold mb-2">🚧 Cadastros Temporariamente Indisponíveis</h3>
+              <h3 className="text-lg font-bold mb-2">🚀 Versão Beta - Teste a Plataforma</h3>
               <p className="text-sm md:text-base">
-                <strong>A plataforma LinkMe Tur está em desenvolvimento.</strong><br/>
-                O sistema de cadastros ainda não está ativo. Em breve, liberaremos o acesso para os primeiros usuários.<br/>
-                <span className="text-red-900 font-medium">Acompanhe nossas redes sociais para ser notificado quando o cadastro estiver disponível!</span>
+                <strong>Bem-vindo à versão de testes da LinkMe Tur!</strong><br/>
+                Complete seu cadastro para explorar todas as funcionalidades da plataforma.<br/>
+                <span className="text-blue-900 font-medium">Seus dados são apenas para demonstração e não serão armazenados.</span>
               </p>
             </div>
           </div>
@@ -81,35 +83,15 @@ export default function Cadastro() {
         </div>
       </section>
 
-      {/* FORMULÁRIO DESABILITADO */}
+      {/* FORMULÁRIO DE CADASTRO */}
       <section className="py-16 px-8">
         <div className="max-w-2xl mx-auto">
-          <div className="bg-gray-100 rounded-2xl shadow-lg p-8 relative">
-            {/* Overlay de desabilitado */}
-            <div className="absolute inset-0 bg-gray-200 bg-opacity-75 rounded-2xl flex items-center justify-center z-10">
-              <div className="text-center p-8">
-                <div className="text-6xl mb-4">🔒</div>
-                <h3 className="text-2xl font-bold text-gray-700 mb-4">Cadastros em Breve</h3>
-                <p className="text-gray-600 max-w-md">
-                  Estamos finalizando os últimos detalhes da plataforma. 
-                  O sistema de cadastros será liberado em breve!
-                </p>
-                <div className="mt-6">
-                  <Link 
-                    href="/"
-                    className="inline-flex items-center px-6 py-3 bg-[#2BE58F] text-black font-semibold rounded-full hover:bg-[#27CC7A] transition"
-                  >
-                    ← Voltar para a página inicial
-                  </Link>
-                </div>
-              </div>
-            </div>
-            
-            <h2 className="text-3xl font-bold text-center mb-8 text-gray-400">
+          <div className="bg-white rounded-2xl shadow-lg p-8">
+            <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
               Cadastro LinkMe Tur
             </h2>
             
-            <form className="space-y-6 opacity-30">
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Tipo de Cadastro */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -303,6 +285,17 @@ export default function Cadastro() {
               <p className="text-sm text-gray-600 text-center mt-4">
                 Ao se cadastrar, você receberá acesso prioritário ao MVP e updates sobre o desenvolvimento da plataforma.
               </p>
+
+              {/* Botão para pular cadastro */}
+              <div className="text-center mt-6 pt-4 border-t border-gray-200">
+                <p className="text-sm text-gray-600 mb-3">Ou para testar rapidamente:</p>
+                <Link 
+                  href="/dashboard"
+                  className="inline-flex items-center px-6 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition"
+                >
+                  🚀 Ir direto para o Dashboard
+                </Link>
+              </div>
             </form>
           </div>
         </div>
