@@ -8,7 +8,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "analyze": "ANALYZE=true npm run build"
+    "lint:fix": "next lint --fix",
+    "analyze": "ANALYZE=true npm run build",
+    "build:production": "NODE_ENV=production next build",
+    "start:production": "NODE_ENV=production next start",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf .next out",
+    "prebuild": "npm run clean && npm run type-check",
+    "postbuild": "echo 'Build completed successfully!'"
   },
   "keywords": [],
   "author": "",
