@@ -1,33 +1,42 @@
 # 🌐 CONFIGURAÇÃO DNS - HOSTINGER VPS + DOMÍNIO
 
-## 📋 Pré-requisitos
-- VPS Hostinger configurado com IP fixo
-- Domínio registrado (Hostinger, GoDaddy, etc.)
-- Acesso ao painel DNS do domínio
+## 📋 Informações do Servidor
+- **VPS Hostinger:** srv999656.hstgr.cloud
+- **IP:** 72.60.149.137
+- **Localização:** Brazil - São Paulo
+- **Sistema:** Ubuntu 22.04 LTS
+- **Domínio:** linkmetur.com.br
 
 ## 🔧 Configuração DNS
 
-### 1. **Obter IP do Servidor**
+### 1. **IP do Servidor Confirmado**
 ```bash
-# No seu VPS Hostinger, execute:
-curl -s ipinfo.io/ip
-
-# Exemplo de retorno: 203.0.113.123
+# IP do VPS: 72.60.149.137
+# Localização: Brazil - São Paulo
+# Hostname: srv999656.hstgr.cloud
 ```
 
-### 2. **Configurar Registros DNS**
+### 2. **Configurar Registros DNS para linkmetur.com.br**
 
 #### **Para domínio na Hostinger:**
 
 Acesse: [Hostinger Control Panel](https://hpanel.hostinger.com) → Domínios → Gerenciar → DNS Zone
 
-**Registros obrigatórios:**
+**Registros obrigatórios para linkmetur.com.br:**
+
 ```dns
 Tipo    Nome        Valor               TTL
-A       @           203.0.113.123       3600
-A       www         203.0.113.123       3600
-CNAME   www         seudominio.com      3600
+A       @           72.60.149.137       3600
+A       www         72.60.149.137       3600
+A       *           72.60.149.137       3600
+CNAME   www         linkmetur.com.br    3600
 ```
+
+**IMPORTANTE:** Configure exatamente assim no painel da Hostinger:
+- **Registro A (@):** Aponta linkmetur.com.br para 72.60.149.137
+- **Registro A (www):** Aponta www.linkmetur.com.br para 72.60.149.137
+- **Registro A (*):** Aponta qualquer subdomínio para 72.60.149.137
+- **CNAME (www):** Alias de www para o domínio principal
 
 #### **Para outros provedores (GoDaddy, Registro.br, etc.):**
 
