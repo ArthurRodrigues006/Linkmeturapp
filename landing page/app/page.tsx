@@ -336,32 +336,22 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* TURISMO MAIS FORTE */}
-      <section id="forte" className="py-16 bg-white text-center px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
-          Vamos juntos construir um turismo mais forte,
-          <br />
-          conectado, moderno e cheio de novas oportunidades para todos!
-        </h2>
-        <div className="mt-4 h-1 w-24 bg-[#2BE58F] mx-auto rounded" />
-        <div className="mt-12 max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-12">
-          <p className="text-3xl md:text-4xl font-bold text-black mb-6 leading-snug text-left">
-            O turismo gaúcho precisa de quem acredita no seu futuro, e esse
-            futuro <span className="text-[#2BE58F]">começa agora!</span>
-          </p>
-          <div className="flex justify-center">
-            <Image
-              src="/mockup-app.png"
-              alt="Mockup do App LinkMe Tur"
-              width={800}
-              height={800}
-              className="max-w-full h-auto"
-              priority
-            />
-          </div>
-        </div>
-      </section>
-
+    {/* TURISMO MAIS FORTE */}
+<section id="forte" className="py-16 bg-white text-center px-8">
+  <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
+    Vamos juntos construir um turismo mais forte,
+    <br />
+    conectado, moderno e cheio de novas oportunidades para todos!
+  </h2>
+  <div className="mt-4 h-1 w-24 bg-[#2BE58F] mx-auto rounded" />
+  <div className="mt-12 max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-12">
+    <p className="text-3xl md:text-4xl font-bold text-black mb-6 leading-snug text-left">
+      O turismo gaúcho precisa de quem acredita no seu futuro, e esse
+      futuro <span className="text-[#2BE58F]">começa agora!</span>
+    </p>
+  </div>
+   </section>
+   
       {/* EVENTO */}
       <section id="turismo-talks" className="py-16 bg-gray-100">
         <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
