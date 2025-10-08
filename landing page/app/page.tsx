@@ -344,8 +344,8 @@ export default function Landing() {
     conectado, moderno e cheio de novas oportunidades para todos!
   </h2>
   <div className="mt-4 h-1 w-24 bg-[#2BE58F] mx-auto rounded" />
-  <div className="mt-12 max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-12">
-    <p className="text-3xl md:text-4xl font-bold text-black mb-6 leading-snug text-left">
+  <div className="mt-12 max-w-4xl mx-auto text-center">
+    <p className="text-3xl md:text-4xl font-bold text-black mb-6 leading-snug">
       O turismo gaúcho precisa de quem acredita no seu futuro, e esse
       futuro <span className="text-[#2BE58F]">começa agora!</span>
     </p>
@@ -546,7 +546,7 @@ export default function Landing() {
             </a>
             {/* WhatsApp */}
             <a
-              href="https://wa.me/"
+              href="https://wa.me/555599623685"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition"
