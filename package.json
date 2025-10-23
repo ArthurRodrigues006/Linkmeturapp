@@ -1,0 +1,27 @@
+{
+  "name": "linkmetur-platform",
+  "version": "2.0.0",
+  "private": true,
+  "workspaces": ["landing page"],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "scripts": {
+    "dev": "cd \"landing page\" && npm run dev",
+    "build": "cd \"landing page\" && npm run build",
+    "start": "cd \"landing page\" && npm run start",
+    "lint": "cd \"landing page\" && npm run lint",
+    "dev:db": "docker-compose -f docker-compose.dev.yml up -d",
+    "dev:db:down": "docker-compose -f docker-compose.dev.yml down",
+    "dev:full": "npm run dev:db && npm run dev",
+    "install:all": "npm install && cd \"landing page\" && npm install",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose build",
+    "docker:logs": "docker-compose logs -f",
+    "db:generate": "cd \"landing page\" && npm run db:generate",
+    "db:push": "cd \"landing page\" && npm run db:push",
+    "db:seed": "cd \"landing page\" && npm run db:seed",
+    "db:studio": "cd \"landing page\" && npm run db:studio"
+  }
+}

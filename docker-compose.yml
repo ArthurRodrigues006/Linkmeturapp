@@ -1,0 +1,66 @@
+services:
+  # Frontend Next.js
+  frontend:
+    build:
+      context: ./landing page
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - linkmetur_network
+    restart: unless-stopped
+
+  # Banco de dados PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: linkmetur_postgres
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - linkmetur_network
+
+  # Redis para cache e sessões
+  redis:
+    image: redis:7-alpine
+    container_name: linkmetur_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - linkmetur_network
+
+  # Nginx para proxy reverso
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - frontend
+    networks:
+      - linkmetur_network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  linkmetur_network:
+    driver: bridge
