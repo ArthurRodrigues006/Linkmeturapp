@@ -1,6 +1,6 @@
 // app/buscar/page.tsx
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import Link from "next/link";
 
@@ -68,8 +68,50 @@ export default function Buscar() {
   const [selectedArea, setSelectedArea] = useState("");
   const [selectedTipo, setSelectedTipo] = useState("");
   const [selectedLocalizacao, setSelectedLocalizacao] = useState("");
-  const [results, setResults] = useState(mockResults);
+  const [results, setResults] = useState<any[]>([]);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Carregar dados reais da API
+  useEffect(() => {
+    loadJobs();
+  }, []);
+
+  const loadJobs = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/jobs?published=true');
+      const result = await response.json();
+      
+      if (result.success) {
+        // Transformar dados da API para o formato esperado
+        const transformedJobs = result.data.jobs.map((job: any) => ({
+          id: job.id,
+          nome: job.corporation.name,
+          tipo: "empresa",
+          area: job.category,
+          descricao: job.description,
+          localizacao: job.location || "Não informado",
+          avaliacao: 4.5, // Valor padrão por enquanto
+          projetos: 0,
+          preco: job.minValue && job.maxValue ? `R$ ${job.minValue}-${job.maxValue}` : "A combinar",
+          tags: [job.category],
+          foto: job.corporation.name.substring(0, 2).toUpperCase()
+        }));
+        setResults(transformedJobs);
+      } else {
+        setError('Erro ao carregar serviços');
+        setResults(mockResults); // Fallback para dados mock
+      }
+    } catch (error) {
+      console.error('Erro ao carregar jobs:', error);
+      setError('Erro de conexão');
+      setResults(mockResults); // Fallback para dados mock
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSearch = () => {
     let filtered = mockResults;

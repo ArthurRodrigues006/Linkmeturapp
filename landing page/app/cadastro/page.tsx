@@ -26,16 +26,53 @@ export default function Cadastro() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Dados do formulário:", { ...formData, tipo: tipoUsuario });
-    alert("Cadastro realizado com sucesso! Redirecionando para o dashboard...");
-    
-    // Redirecionar baseado no tipo
-    if (tipoUsuario === "empresa") {
-      window.location.href = "/dashboard-empresa";
-    } else {
-      window.location.href = "/dashboard";
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nome: formData.nome,
+          email: formData.email,
+          senha: formData.senha,
+          telefone: formData.telefone,
+          cnpj: formData.cnpj,
+          tipoUsuario: tipoUsuario
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSuccess("Cadastro realizado com sucesso! Redirecionando...");
+        
+        // Redirecionar após 2 segundos
+        setTimeout(() => {
+          if (tipoUsuario === "empresa") {
+            window.location.href = "/dashboard-empresa";
+          } else {
+            window.location.href = "/dashboard";
+          }
+        }, 2000);
+      } else {
+        setError(result.error || 'Erro no cadastro');
+      }
+    } catch (error) {
+      console.error('Erro no cadastro:', error);
+      setError('Erro de conexão. Tente novamente.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -122,6 +159,19 @@ export default function Cadastro() {
                 </div>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* Mensagens de erro e sucesso */}
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg mb-4">
+                      {error}
+                    </div>
+                  )}
+                  
+                  {success && (
+                    <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg mb-4">
+                      {success}
+                    </div>
+                  )}
+
                   <div>
                     <h3 className="font-bold text-gray-800 mb-4">CADASTRO</h3>
                     
@@ -220,6 +270,7 @@ export default function Cadastro() {
                     variant="contained"
                     size="large"
                     fullWidth
+                    disabled={loading || !tipoUsuario}
                     sx={{
                       backgroundColor: CTA_BG,
                       color: "black",
@@ -230,18 +281,27 @@ export default function Cadastro() {
                       fontWeight: "bold",
                     }}
                   >
-                    Cadastrar
+                    {loading ? 'CADASTRANDO...' : 'CADASTRAR'}
                   </Button>
 
-                  {/* Opção para pular cadastro */}
+                  {/* Links de navegação */}
                   <div className="text-center mt-6 pt-4 border-t border-gray-200">
-                    <p className="text-sm text-gray-600 mb-3">Ou para testar rapidamente:</p>
-                    <Link 
-                      href={tipoUsuario === "empresa" ? "/dashboard-empresa" : "/dashboard"}
-                      className="inline-flex items-center px-6 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition"
-                    >
-                      🚀 Pular cadastro e ir para o Dashboard
-                    </Link>
+                    <p className="text-sm text-gray-600 mb-3">Já tem uma conta?</p>
+                    <div className="flex justify-center items-center gap-4">
+                      <Link 
+                        href="/login"
+                        className="text-[#2BE58F] hover:text-[#27CC7A] font-medium text-sm"
+                      >
+                        🔑 Fazer Login
+                      </Link>
+                      <span className="text-gray-400">|</span>
+                      <Link 
+                        href={tipoUsuario === "empresa" ? "/dashboard-empresa" : "/dashboard"}
+                        className="text-[#2BE58F] hover:text-[#27CC7A] font-medium text-sm"
+                      >
+                        🚀 Pular para Dashboard
+                      </Link>
+                    </div>
                   </div>
                 </form>
               </div>

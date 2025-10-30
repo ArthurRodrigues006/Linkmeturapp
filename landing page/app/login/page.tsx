@@ -14,6 +14,8 @@ export default function Login() {
     email: "",
     senha: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,12 +23,49 @@ export default function Login() {
       ...prev,
       [name]: value
     }));
+    // Limpar erro quando usuário digitar
+    if (error) setError("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Dados de login:", formData);
-    router.push("/dashboard");
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.senha
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Salvar token no localStorage
+        localStorage.setItem('token', result.data.token);
+        localStorage.setItem('user', JSON.stringify(result.data.user));
+        
+        // Redirecionar baseado no tipo de usuário
+        if (result.data.user.corporationId) {
+          router.push("/dashboard-empresa");
+        } else {
+          router.push("/dashboard");
+        }
+      } else {
+        setError(result.error || 'Erro no login');
+      }
+    } catch (error) {
+      console.error('Erro no login:', error);
+      setError('Erro de conexão. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -55,6 +94,12 @@ export default function Login() {
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg mb-4">
+                  {error}
+                </div>
+              )}
+
               {/* EMAIL */}
               <div className="mb-4">
                 <label htmlFor="email" className="block text-sm text-gray-700 mb-1">
@@ -67,7 +112,8 @@ export default function Login() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#2BE58F] focus:border-transparent outline-none"
+                  disabled={loading}
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#2BE58F] focus:border-transparent outline-none disabled:bg-gray-100"
                   placeholder="seu@email.com"
                 />
               </div>
@@ -84,7 +130,8 @@ export default function Login() {
                   value={formData.senha}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#2BE58F] focus:border-transparent outline-none"
+                  disabled={loading}
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#2BE58F] focus:border-transparent outline-none disabled:bg-gray-100"
                   placeholder="Sua senha"
                 />
               </div>
@@ -93,6 +140,7 @@ export default function Login() {
               <Button
                 type="submit"
                 variant="contained"
+                disabled={loading}
                 size="large"
                 fullWidth
                 sx={{
@@ -105,7 +153,7 @@ export default function Login() {
                   fontWeight: "bold",
                 }}
               >
-                Entrar
+{loading ? 'ENTRANDO...' : 'ENTRAR'}
               </Button>
 
               <div className="text-center mt-4">

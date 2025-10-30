@@ -24,10 +24,66 @@ export default function Servicos() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Serviço cadastrado:", formData);
-    alert("Serviço cadastrado com sucesso!");
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      // Pegar dados do usuário logado
+      const userData = localStorage.getItem('user');
+      if (!userData) {
+        setError('Você precisa estar logado para cadastrar um serviço');
+        return;
+      }
+
+      const user = JSON.parse(userData);
+      if (!user.corporationId) {
+        setError('Apenas empresas podem cadastrar serviços');
+        return;
+      }
+
+      const response = await fetch('/api/jobs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          titulo: formData.titulo,
+          descricao: formData.descricao,
+          categoria: 'Geral', // Você pode adicionar um campo de categoria
+          precoMin: formData.preco ? parseFloat(formData.preco.split('-')[0]) : null,
+          precoMax: formData.preco ? parseFloat(formData.preco.split('-')[1]) : null,
+          prazo: formData.prazo,
+          corporationId: user.corporationId
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSuccess("Serviço cadastrado com sucesso!");
+        // Limpar formulário
+        setFormData({
+          titulo: "",
+          descricao: "",
+          preco: "",
+          prazo: "",
+        });
+      } else {
+        setError(result.error || 'Erro ao cadastrar serviço');
+      }
+    } catch (error) {
+      console.error('Erro ao cadastrar serviço:', error);
+      setError('Erro de conexão. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -115,6 +171,19 @@ export default function Servicos() {
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* Mensagens de erro e sucesso */}
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg mb-4">
+                      {error}
+                    </div>
+                  )}
+                  
+                  {success && (
+                    <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg mb-4">
+                      {success}
+                    </div>
+                  )}
+
                   <div>
                     <h3 className="font-bold text-gray-800 mb-4">Informações Básicas</h3>
                     
