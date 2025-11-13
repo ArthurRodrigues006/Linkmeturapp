@@ -12,6 +12,16 @@ export default function Dashboard() {
   const router = useRouter();
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [stats, setStats] = useState({
+    profileViews: 0,
+    todayViews: 0,
+    weekViews: 0,
+    acceptedJobs: 0,
+    pendingJobs: 0,
+    completedJobs: 0,
+    totalEarnings: 0
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Carregar dados do usuário do localStorage
@@ -28,6 +38,20 @@ export default function Dashboard() {
       const user = JSON.parse(userStr);
       setUserName(user.name || "Usuário");
       setUserEmail(user.email || "");
+      
+      // Aqui você pode carregar estatísticas reais do banco
+      // Por enquanto, deixa tudo zerado (sem dados fictícios)
+      setStats({
+        profileViews: 0,
+        todayViews: 0,
+        weekViews: 0,
+        acceptedJobs: 0,
+        pendingJobs: 0,
+        completedJobs: 0,
+        totalEarnings: 0
+      });
+      
+      setLoading(false);
     } catch (error) {
       console.error('Erro ao carregar dados do usuário:', error);
       router.push('/login');
@@ -85,60 +109,51 @@ export default function Dashboard() {
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4">VISUALIZAÇÕES DO PERFIL</h2>
               <div className="text-center">
-                <div className="text-4xl font-bold text-[#2BE58F] mb-2">127</div>
+                <div className="text-4xl font-bold text-[#2BE58F] mb-2">{stats.profileViews}</div>
                 <p className="text-gray-600">visualizações este mês</p>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-200">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Hoje:</span>
-                  <span className="font-medium">8</span>
+                  <span className="font-medium">{stats.todayViews}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Esta semana:</span>
-                  <span className="font-medium">34</span>
+                  <span className="font-medium">{stats.weekViews}</span>
                 </div>
               </div>
             </div>
 
-            {/* DESAFIOS ACEITOS/PROPOSTAS ENVIADAS */}
+            {/* PROPOSTAS ENVIADAS */}
             <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">DESAFIOS ACEITOS/PROPOSTAS ENVIADAS</h2>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                  <div>
-                    <div className="font-medium text-sm">Site para Pousada</div>
-                    <div className="text-xs text-gray-600">Proposta enviada</div>
-                  </div>
-                  <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Pendente</span>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">PROPOSTAS ENVIADAS</h2>
+              <div className="text-center">
+                <div className="text-4xl font-bold text-[#2BE58F] mb-2">{stats.acceptedJobs + stats.pendingJobs}</div>
+                <p className="text-gray-600">propostas ativas</p>
+              </div>
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Aceitas:</span>
+                  <span className="font-medium text-green-600">{stats.acceptedJobs}</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                  <div>
-                    <div className="font-medium text-sm">Marketing Digital</div>
-                    <div className="text-xs text-gray-600">Proposta aceita</div>
-                  </div>
-                  <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Aceito</span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Pendentes:</span>
+                  <span className="font-medium text-yellow-600">{stats.pendingJobs}</span>
                 </div>
               </div>
             </div>
 
-            {/* NEGOCIAÇÕES */}
+            {/* SERVIÇOS CONCLUÍDOS */}
             <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">NEGOCIAÇÕES</h2>
-              
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-medium text-gray-800 mb-2">ABERTAS</h3>
-                  <div className="text-2xl font-bold text-blue-600">3</div>
-                </div>
-                
-                <div>
-                  <h3 className="font-medium text-gray-800 mb-2">VENDIDAS</h3>
-                  <div className="text-2xl font-bold text-green-600">12</div>
-                </div>
-                
-                <div>
-                  <h3 className="font-medium text-gray-800 mb-2">PERDIDAS</h3>
-                  <div className="text-2xl font-bold text-red-600">5</div>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">SERVIÇOS CONCLUÍDOS</h2>
+              <div className="text-center">
+                <div className="text-4xl font-bold text-[#2BE58F] mb-2">{stats.completedJobs}</div>
+                <p className="text-gray-600">serviços finalizados</p>
+              </div>
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Ganhos totais:</span>
+                  <span className="font-medium">R$ {stats.totalEarnings.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
                 </div>
               </div>
             </div>

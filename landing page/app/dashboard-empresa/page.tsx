@@ -12,6 +12,17 @@ export default function DashboardEmpresa() {
   const router = useRouter();
   const [companyName, setCompanyName] = useState("");
   const [userName, setUserName] = useState("");
+  const [stats, setStats] = useState({
+    profileViews: 0,
+    todayViews: 0,
+    weekViews: 0,
+    activeJobs: 0,
+    totalApplications: 0,
+    pendingApplications: 0,
+    acceptedApplications: 0,
+    totalContacts: 0
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Carregar dados do usuário do localStorage
@@ -34,6 +45,21 @@ export default function DashboardEmpresa() {
       } else {
         setCompanyName(user.name || "Empresa");
       }
+      
+      // Aqui você pode carregar estatísticas reais do banco
+      // Por enquanto, deixa tudo zerado (sem dados fictícios)
+      setStats({
+        profileViews: 0,
+        todayViews: 0,
+        weekViews: 0,
+        activeJobs: 0,
+        totalApplications: 0,
+        pendingApplications: 0,
+        acceptedApplications: 0,
+        totalContacts: 0
+      });
+      
+      setLoading(false);
     } catch (error) {
       console.error('Erro ao carregar dados do usuário:', error);
       router.push('/login');
@@ -85,7 +111,7 @@ export default function DashboardEmpresa() {
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4">VISUALIZAÇÕES DO PERFIL</h2>
               <div className="text-center">
-                <div className="text-4xl font-bold text-[#2BE58F] mb-2">89</div>
+                <div className="text-4xl font-bold text-[#2BE58F] mb-2">{stats.profileViews}</div>
                 <p className="text-gray-600">visualizações este mês</p>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-200">
