@@ -10,6 +10,7 @@ const CTA_HOVER = "#27CC7A";
 export default function Cadastro() {
   const [tipoUsuario, setTipoUsuario] = useState<"prestador" | "empresa" | "">("");
   const [formData, setFormData] = useState({
+    cpf: "",
     cnpj: "",
     nome: "",
     telefone: "",
@@ -46,7 +47,8 @@ export default function Cadastro() {
           email: formData.email,
           senha: formData.senha,
           telefone: formData.telefone,
-          cnpj: formData.cnpj,
+          cpf: tipoUsuario === "prestador" ? formData.cpf : undefined,
+          cnpj: tipoUsuario === "empresa" ? formData.cnpj : undefined,
           tipoUsuario: tipoUsuario
         }),
       });
@@ -174,22 +176,40 @@ export default function Cadastro() {
                   <div>
                     <h3 className="font-bold text-gray-800 mb-4">CADASTRO</h3>
                     
-                    {/* BUSCA CNPJ */}
-                    <div className="mb-4">
-                      <label htmlFor="cnpj" className="block text-sm text-gray-700 mb-1">
-                        BUSCA CNPJ
-                      </label>
-                      <input
-                        type="text"
-                        id="cnpj"
-                        name="cnpj"
-                        value={formData.cnpj}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#2BE58F] focus:border-transparent outline-none"
-                        placeholder="00.000.000/0000-00"
-                      />
-                    </div>
+                    {/* CPF (para prestador) ou CNPJ (para empresa) */}
+                    {tipoUsuario === "prestador" ? (
+                      <div className="mb-4">
+                        <label htmlFor="cpf" className="block text-sm text-gray-700 mb-1">
+                          CPF
+                        </label>
+                        <input
+                          type="text"
+                          id="cpf"
+                          name="cpf"
+                          value={formData.cpf}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#2BE58F] focus:border-transparent outline-none"
+                          placeholder="000.000.000-00"
+                        />
+                      </div>
+                    ) : (
+                      <div className="mb-4">
+                        <label htmlFor="cnpj" className="block text-sm text-gray-700 mb-1">
+                          CNPJ
+                        </label>
+                        <input
+                          type="text"
+                          id="cnpj"
+                          name="cnpj"
+                          value={formData.cnpj}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#2BE58F] focus:border-transparent outline-none"
+                          placeholder="00.000.000/0000-00"
+                        />
+                      </div>
+                    )}
 
                     {/* NOME, TELEFONE DO USUÁRIO e EMAIL */}
                     <div className="mb-4">

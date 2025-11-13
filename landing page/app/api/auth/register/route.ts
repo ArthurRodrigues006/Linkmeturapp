@@ -8,7 +8,8 @@ export async function POST(request: NextRequest) {
       nome, 
       email, 
       senha, 
-      telefone, 
+      telefone,
+      cpf,
       cnpj, 
       tipoUsuario 
     } = await request.json()
@@ -19,6 +20,30 @@ export async function POST(request: NextRequest) {
         { success: false, error: 'Nome, email e senha são obrigatórios' },
         { status: 400 }
       )
+    }
+
+    // Validar CPF para prestadores
+    if (tipoUsuario === 'prestador' && cpf) {
+      const cpfNumeros = cpf.replace(/\D/g, '')
+      
+      if (cpfNumeros.length !== 11) {
+        return NextResponse.json(
+          { success: false, error: 'CPF deve conter exatamente 11 dígitos' },
+          { status: 400 }
+        )
+      }
+
+      // Verificar se CPF já existe
+      const existingCpf = await prisma.user.findUnique({
+        where: { cpf: cpfNumeros }
+      })
+
+      if (existingCpf) {
+        return NextResponse.json(
+          { success: false, error: 'CPF já cadastrado' },
+          { status: 400 }
+        )
+      }
     }
 
     // Verificar se email já existe
@@ -83,6 +108,7 @@ export async function POST(request: NextRequest) {
         email: email,
         password: hashedPassword,
         phone: telefone,
+        cpf: tipoUsuario === 'prestador' && cpf ? cpf.replace(/\D/g, '') : null,
         level: tipoUsuario === 'empresa' ? 2 : 1, // 2=admin empresa, 1=prestador
         corporationId: corporationId
       },
