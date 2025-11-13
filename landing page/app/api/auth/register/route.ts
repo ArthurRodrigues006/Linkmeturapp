@@ -41,9 +41,19 @@ export async function POST(request: NextRequest) {
 
     // Se for empresa, criar corporação
     if (tipoUsuario === 'empresa' && cnpj) {
+      // Validar formato do CNPJ (apenas números, 14 dígitos)
+      const cnpjNumeros = cnpj.replace(/\D/g, '')
+      
+      if (cnpjNumeros.length !== 14) {
+        return NextResponse.json(
+          { success: false, error: 'CNPJ deve conter exatamente 14 dígitos' },
+          { status: 400 }
+        )
+      }
+
       // Verificar se CNPJ já existe
       const existingCorp = await prisma.corporation.findUnique({
-        where: { cnpj }
+        where: { cnpj: cnpjNumeros }
       })
 
       if (existingCorp) {
@@ -53,13 +63,13 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      // Criar corporação
+      // Criar corporação (salvar CNPJ apenas com números)
       corporation = await prisma.corporation.create({
         data: {
           name: nome,
           email: email,
           phone: telefone,
-          cnpj: cnpj
+          cnpj: cnpjNumeros
         }
       })
 
