@@ -1,14 +1,44 @@
 // app/dashboard/page.tsx
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const CTA_BG = "#2BE58F";
 const CTA_HOVER = "#27CC7A";
 
 export default function Dashboard() {
-  const [userName] = useState("Carlos Oliveira");
+  const router = useRouter();
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    // Carregar dados do usuário do localStorage
+    const userStr = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    
+    if (!token || !userStr) {
+      // Se não estiver logado, redirecionar para login
+      router.push('/login');
+      return;
+    }
+
+    try {
+      const user = JSON.parse(userStr);
+      setUserName(user.name || "Usuário");
+      setUserEmail(user.email || "");
+    } catch (error) {
+      console.error('Erro ao carregar dados do usuário:', error);
+      router.push('/login');
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    router.push('/');
+  };
 
   return (
     <div className="font-sans min-h-screen bg-gray-50">
@@ -35,12 +65,12 @@ export default function Dashboard() {
             >
               Serviços
             </Link>
-            <Link 
-              href="/"
+            <button
+              onClick={handleLogout}
               className="text-gray-600 hover:text-gray-800 transition"
             >
               Sair
-            </Link>
+            </button>
           </div>
         </div>
       </header>
