@@ -3,13 +3,16 @@
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const CTA_BG = "#2BE58F";
 const CTA_HOVER = "#27CC7A";
 
 export default function Perfil() {
-  // Simular detecção do tipo de usuário (em produção viria do contexto/auth)
+  const router = useRouter();
   const [tipoUsuario, setTipoUsuario] = useState<"prestador" | "empresa">("prestador");
+  const [userName, setUserName] = useState("");
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     nome: "",
     telefone: "",
@@ -24,6 +27,53 @@ export default function Perfil() {
     localizacao: "",
     capacidade: "",
   });
+
+  useEffect(() => {
+    // Carregar dados do usuário do localStorage
+    const userStr = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    
+    if (!token || !userStr) {
+      // Se não estiver logado, redirecionar para login
+      router.push('/login');
+      return;
+    }
+
+    try {
+      const user = JSON.parse(userStr);
+      
+      // Determinar tipo de usuário baseado no level ou corporationId
+      const isEmpresa = user.corporationId !== null || user.level === 2;
+      setTipoUsuario(isEmpresa ? "empresa" : "prestador");
+      
+      // Preencher formulário com dados do usuário
+      setFormData({
+        nome: user.name || "",
+        telefone: user.phone || "",
+        email: user.email || "",
+        logomarca: user.avatar || "",
+        descritivo: user.bio || "",
+        servicosPrestados: "",
+        redesSociais: "",
+        experienciaSetor: "",
+        tipoEmpresa: user.corporation?.description || "",
+        localizacao: user.corporation?.address || "",
+        capacidade: "",
+      });
+      
+      setUserName(user.name || "Usuário");
+      setLoading(false);
+    } catch (error) {
+      console.error('Erro ao carregar dados do usuário:', error);
+      router.push('/login');
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    router.push('/');
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -59,12 +109,12 @@ export default function Perfil() {
             >
               Dashboard
             </Link>
-            <Link 
-              href="/"
+            <button
+              onClick={handleLogout}
               className="text-gray-600 hover:text-gray-800 transition"
             >
               Sair
-            </Link>
+            </button>
           </div>
         </div>
       </header>
@@ -75,27 +125,8 @@ export default function Perfil() {
           <div className="bg-white rounded-lg shadow-lg p-8">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-2xl font-bold text-gray-800">PERFIL</h2>
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => setTipoUsuario("prestador")}
-                  className={`px-3 py-1 rounded text-sm ${
-                    tipoUsuario === "prestador" 
-                      ? "bg-[#2BE58F] text-black" 
-                      : "bg-gray-200 text-gray-600"
-                  }`}
-                >
-                  Prestador
-                </button>
-                <button
-                  onClick={() => setTipoUsuario("empresa")}
-                  className={`px-3 py-1 rounded text-sm ${
-                    tipoUsuario === "empresa" 
-                      ? "bg-[#2BE58F] text-black" 
-                      : "bg-gray-200 text-gray-600"
-                  }`}
-                >
-                  Empresa
-                </button>
+              <div className="bg-green-100 px-3 py-1 rounded text-xs font-medium text-green-800">
+                {tipoUsuario === "prestador" ? "PRESTADOR DE SERVIÇOS" : "EMPRESA DE TURISMO"}
               </div>
             </div>
             
