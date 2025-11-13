@@ -14,7 +14,6 @@ export default function Cadastro() {
     nome: "",
     telefone: "",
     email: "",
-    codigoValidacao: "",
     senha: "",
   });
 
@@ -226,23 +225,6 @@ export default function Cadastro() {
                         required
                         className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#2BE58F] focus:border-transparent outline-none"
                         placeholder="Email"
-                      />
-                    </div>
-
-                    {/* CÓDIGO DE VALIDAÇÃO */}
-                    <div className="mb-4">
-                      <label htmlFor="codigoValidacao" className="block text-sm text-gray-700 mb-1">
-                        CÓDIGO DE VALIDAÇÃO
-                      </label>
-                      <input
-                        type="text"
-                        id="codigoValidacao"
-                        name="codigoValidacao"
-                        value={formData.codigoValidacao}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#2BE58F] focus:border-transparent outline-none"
-                        placeholder="Código de validação"
                       />
                     </div>
 
