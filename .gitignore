@@ -105,30 +105,6 @@ temp/
 ehthumbs.db
 Thumbs.db
 
-# Docker
-.dockerignore
-
-# SSL certificates
-ssl/
-*.crt
-*.key
-*.pem
-
-# Backups
-backups/
-*.backup
-*.sql
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
-
-# Redis dump
-dump.rdb
-
-# PM2
-.pm2/
 
 # Vercel
 .vercel

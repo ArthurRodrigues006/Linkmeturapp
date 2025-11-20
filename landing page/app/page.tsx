@@ -38,7 +38,9 @@ export default function Landing() {
             ))}
           </nav>
           <Button
-            href="/cadastro"
+            href="https://wa.me/555599623685?text=Quero%20fazer%20parte%20da%20LinkMe%20Tur"
+            target="_blank"
+            rel="noopener noreferrer"
             variant="contained"
             size="large"
             sx={{
@@ -75,7 +77,9 @@ export default function Landing() {
               Conectamos quem precisa com quem resolve
             </p>
             <Button
-              href="/cadastro"
+              href="https://wa.me/555599623685?text=Quero%20fazer%20parte%20da%20LinkMe%20Tur"
+              target="_blank"
+              rel="noopener noreferrer"
               variant="contained"
               size="large"
               sx={{

@@ -1,52 +1,28 @@
 {
-  "name": "landing-page",
+  "name": "linkmetur-landing",
   "version": "1.0.0",
-  "main": "index.js",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint --fix",
-    "analyze": "ANALYZE=true npm run build",
-    "build:production": "NODE_ENV=production next build",
-    "start:production": "NODE_ENV=production next start",
-    "type-check": "tsc --noEmit",
-    "clean": "rm -rf .next out",
-    "prebuild": "npm run clean && npm run type-check",
-    "postbuild": "echo 'Build completed successfully!'",
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts",
-    "db:studio": "prisma studio",
-    "db:reset": "prisma db push --force-reset && npm run db:seed"
+    "lint:fix": "next lint --fix"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.2",
-    "@prisma/client": "^6.18.0",
     "@tailwindcss/postcss": "^4.1.13",
-    "bcryptjs": "^3.0.2",
-    "jsonwebtoken": "^9.0.2",
     "next": "^15.5.3",
-    "prisma": "^6.18.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.6",
-    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "24.5.2",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
-    "tsx": "^4.20.6",
     "typescript": "5.9.2"
   }
 }
