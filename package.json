@@ -2,6 +2,7 @@
   "name": "linkmetur-landing",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "bun@1.1.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -21,7 +22,8 @@
     "next": "^15.5.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "vercel": "^48.10.10"
   },
   "devDependencies": {
     "@types/node": "24.5.2",
